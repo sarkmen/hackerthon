@@ -1,0 +1,11 @@
+{% extends 'idea/base.html' %}
+
+{% block content %}
+
+{% for idea in idea_list %}
+{{idea.title}}
+{{idea.content}}
+<img src="{{idea.image.url}}"/>
+{% endfor %}
+
+{% endblock %}
