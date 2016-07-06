@@ -9,6 +9,10 @@ def index(request):
         'idea_list' : idea_list,
         })
 
+def idea_list(request):
+    idea_list = Idea.objects.all()
+    return render(request, 'idea/idea_list.html', {'idea_list': idea_list})
+
 
 def idea_detail(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
@@ -113,3 +117,10 @@ def recommend_del(request, pk):
     idea.recommend -= 1
     request.user.recommend += 1
     return redirect('index')
+
+
+def post(request):
+    return render(request, "idea/post.html")
+
+def contact(request):
+    return render(request, "idea/contact.html")
