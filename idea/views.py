@@ -20,11 +20,12 @@ def idea_detail(request, pk):
 def idea_new(request):
     if request.method == "POST":
         form = IdeaForm(request.POST, request.FILES)
+        print(form.is_valid())
         if form.is_valid():
             idea = form.save(commit=False)
             idea.author = request.user
             idea.save()
-            return redirect(idea_detail, pk=idea.pk)
+            return redirect('idea:idea_detail', pk=idea.pk)
     else:
         form = IdeaForm()
     return render(request, 'idea/idea_form.html', {
@@ -38,7 +39,7 @@ def idea_edit(request, pk):
         form = IdeaForm(request.POST, request.FILES, instance=idea)
         if form.is_valid():
             idea = form.save()
-            return redirect(idea_detail, pk=idea.pk)
+            return redirect('idea:idea_detail', pk=idea.pk)
     else:
         form = IdeaForm()
     return render(request, 'idea/idea_form.html', {
@@ -70,7 +71,7 @@ def comment_new(request, idea_pk):
             comment.idea = idea
             comment.author = request.user
             comment.save()
-            return redirect(idea_detail, pk=idea_pk)
+            return redirect('idea:idea_detail', pk=idea_pk)
     else:
         form = CommentForm()
     return render(request, 'idea/comment_form.html', {
@@ -85,7 +86,7 @@ def comment_edit(request, idea_pk, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save()
-            return redirect(idea_detail, pk=idea_pk)
+            return redirect('idea:idea_detail', pk=idea_pk)
     else:
         form = CommentForm()
     return render(request, 'idea/comment_form.html', {

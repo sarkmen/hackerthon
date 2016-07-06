@@ -1,7 +1,7 @@
-{% extends 'idea/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
-<form action="" method="POST">
+<form action="" enctype="multipart/form-data" method="post">
     {% csrf_token %}
     <table>
     {{form.as_table}}

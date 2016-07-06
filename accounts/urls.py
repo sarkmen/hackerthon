@@ -7,8 +7,7 @@ from . import views
 
 urlpatterns = [
     url(r'^login/$', login, name='login'),
-    url(r'^logout/$', logout, name='logout'),
-
+    url(r'^logout/$', logout, {'next_page': 'index'}, name='logout'),
+    url(r'^signup/$', views.sign_up, name="signup"),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
