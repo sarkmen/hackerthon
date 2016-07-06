@@ -4,9 +4,7 @@ from .models import Idea, Comment
 from .forms import IdeaForm, CommentForm
 
 def index(request):
-    idea_list = Idea.objects.all()
     return render(request, 'idea/index.html', {
-        'idea_list' : idea_list,
         })
 
 def idea_list(request):
@@ -16,9 +14,22 @@ def idea_list(request):
 
 def idea_detail(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
-    return render(request, 'idea/idea_detail.html', {
-        'idea' : idea,
-        })
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.idea = idea
+            comment.author = request.user
+            comment.save()
+            return redirect("idea:idea_detail", pk = idea.pk)
+    else:
+        form = CommentForm()
+        comments = Comment.objects.filter(idea = idea)
+        return render(request, 'idea/idea_detail.html', {
+            'idea' : idea,
+            'comments' : comments,
+            'form' : form,
+            })
 
 
 def idea_new(request):
@@ -45,7 +56,7 @@ def idea_edit(request, pk):
             idea = form.save()
             return redirect('idea:idea_detail', pk=idea.pk)
     else:
-        form = IdeaForm()
+        form = IdeaForm(instance = idea)
     return render(request, 'idea/idea_form.html', {
         'form' : form,
         })
@@ -54,7 +65,7 @@ def idea_edit(request, pk):
 def idea_del(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     idea.delete()
-    return redirect('index')
+    return redirect('idea:idea_list')
 
 
 def comment_detail(request, idea_pk, pk):

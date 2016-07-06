@@ -1,6 +1,10 @@
-{% extends 'base.html' %}
-
+{% extends 'form.html' %}
+{% load staticfiles %}
 {% block content %}
+
+<br>
+<br>
+<br>
 <form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <table>
