@@ -1,0 +1,31 @@
+#typed  {
+  font-size: 35px;
+}
+#typed.subheading,
+#typed .meta {
+  line-height: 1.1;
+  display: block;
+}
+#typed .subheading {
+  font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  margin: 10px 0 30px;
+  font-weight: 600;
+}
+#typed .meta {
+  font-family: 'Lora', 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 300;
+  font-size: 20px;
+}
+#typed .meta a {
+  color: white;
+}
+@media only screen and (min-width: 768px) {
+#typed  {
+    font-size: 50px;
+  }
+#typed .subheading {
+    font-size: 30px;
+  }
+}
