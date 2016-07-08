@@ -105,5 +105,5 @@ def login_by_token(request):
     if not ret:
         ret = render_authentication_error(request, KakaoProvider.id, exception+auth_exception)
 
-    return ret 
+    return ret
 

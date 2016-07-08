@@ -156,18 +156,28 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_REDIRECT_URL = '/'
-
+LOGOUT_REDIRECT_URL = '/'
 
 
 # Social Login
 
+SOCIALAACOUNT_AUTO_SIGNUP = True
+ACCOUNT_SIGNUP_FORM_CLASS = None
 
+SOCIALACCOUNT_PROVIDERS = {
+        'kakao' : {
+            'AUTH_PARAMS' : {},
+            'VERIFIED_EMAIL' : False}}
 
 AUTHENTICATION_BACKENDS = (
-   'social.backends.facebook.FacebookOAuth2',
-   #'social.backends.google.GoogleOAuth2',
-   # 'social.backends.twitter.TwitterOAuth',
-   'django.contrib.auth.backends.ModelBackend',
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+    'social.backends.facebook.FacebookOAuth2',
+    #'social.backends.google.GoogleOAuth2',
+    # 'social.backends.twitter.TwitterOAuth',
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
@@ -207,5 +217,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
 
 # SOCIAL_AUTH_KAKAO_SCOPE = [...]
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
+
+
 
 
