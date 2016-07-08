@@ -2,6 +2,26 @@
 {% load socialaccount staticfiles %}
 {% load bootstrap3 %}
 {% block content %}
+
+<style>
+    .btn-kakao {
+    color: #3c3c3c;
+    background-color: #ffeb00;
+    border-color: #ffde00;
+}
+
+    .btn-naver {
+        color: #fff;
+        background-color: #1ec800;
+        border-color: #34b31e;
+    }
+
+    .btn-facebook {
+    color: #fff;
+    background-color: #3B5998;
+    border-color: #3B5998;
+</style>
+
 <br>
 <br>
 <br>
@@ -19,7 +39,17 @@
                     <div class = "panel-footer text-right">
                         <input type = "submit" class = "btn btn-default" value = "로그인"/>
                        <br>
-                       <a href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}">Login with Facebook</a>
+                       <br>
+                       <br>
+                        <a title="facebook" href="{% url 'social:begin' 'facebook' %}?next={% url 'index' %}" scope=scope auth_params=auth_params %}" class="btn btn-social btn-block btn-facebook ">
+                        facebook 계정으로 로그인
+                        </a>
+                       {% get_providers as providers %}
+                        {% for provider in providers %}
+                        <a title="{{ provider.name }}" href="{% provider_login_url provider.id process="login" scope=scope auth_params=auth_params %}" class="btn btn-social btn-block btn-{{ provider.id }} ">
+                            {{ provider.name }} 계정으로 로그인
+                        </a>
+                    {% endfor %}
 
                        {%if form.non_field_errors%}
                        <div>
@@ -34,51 +64,7 @@
     </div>
 </div>
 
-<style>
-    .btn-kakao {
-    color: #3c3c3c;
-    background-color: #ffeb00;
-    border-color: #ffde00;
-}
-    .fa-kakao {
-        background: url("{% static "accounts/kakao-login-btn.png" %}") no-repeat left top;
-        background-size: cover;
-    }
-    .btn-naver {
-        color: #fff;
-        background-color: #1ec800;
-        border-color: #34b31e;
-    }
-    .fa-naver {
-        background: url("{% static "accounts/naver-login-btn-white.png" %}") no-repeat left top;
-        background-size: cover;
-    }
-</style>
 
-{% get_providers as providers %}
 
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-6 col-sm-offset-3">
-                <form action="" method="post">
-                    <legend>Login Form</legend>
-                    {% csrf_token %}
-                    <table class="table table-bordered table-hover">
-                        {{ form.as_table }}
-                    </table>
-                    <input type="submit" class="btn btn-primary" />
-                </form>
-
-                <hr/>
-
-                {% for provider in providers %}
-                    <a title="{{ provider.name }}" href="{% provider_login_url provider.id process="login" scope=scope auth_params=auth_params %}" class="btn btn-social btn-block btn-{{ provider.id }}">
-                        <i class="fa fa-{{ provider.id }}"></i>
-                        {{ provider.name }} 계정으로 로그인
-                    </a>
-                {% endfor %}
-            </div>
-        </div>
-    </div>
 {% endblock %}
 
