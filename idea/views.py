@@ -133,5 +133,5 @@ def recommend_del(request, pk):
 def post(request):
     return render(request, "idea/post.html")
 
-def contact(request):
-    return render(request, "idea/contact.html")
+def location(request):
+    return render(request, "idea/location.html")

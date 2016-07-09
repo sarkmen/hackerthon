@@ -18,5 +18,5 @@ urlpatterns = [
 
     #Sample
     url(r'^post/$', views.post, name="post"),
-    url(r'^contact/$', views.contact, name="contact")
+    url(r'^location/$', views.location, name="location")
 ]

@@ -1,0 +1,10 @@
+django
+sorl-thumbnail
+pillow
+django-bootstrap3
+python-social-auth
+django-allauth
+uwsgi
+psycopg2
+
+
