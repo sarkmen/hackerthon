@@ -22,7 +22,9 @@
 <div class="container">
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            {%if user.is_authenticated %}
             <a href = "{% url 'idea:idea_new' %}" style = "float : right">새 글쓰기</a>
+            {% endif %}
             {% for idea in idea_list %}
                                 {% if idea.image %}
                     {% thumbnail idea.image "100x100" crop="center" as im %}

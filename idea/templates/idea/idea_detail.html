@@ -23,8 +23,9 @@
 {{idea.content}}
 <img src="{{idea.image.url}}"/>
 
+{% if idea.author == user %}
 <a href = "{% url 'idea:idea_edit' idea.pk %}">아이디어 수정</a> <a href = "{% url 'idea:idea_del' idea.pk %}">아이디어 삭제</a>
-
+{% endif %}
 <div class = "container">
     <div class = "row">
         <div class = "col-sm-6 col-md-offset-3">
@@ -46,7 +47,10 @@
     </div>
 </div>
 {% for comment in comments %}
-{{comment.author}} <a href = "{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a> <a href = "{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a>
+{{comment.author}}
+{%if comment.author == user %}
+<a href = "{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a> <a href = "{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a>
+{% endif %}
 <br>
 {{comment.contents}}
 <br>
