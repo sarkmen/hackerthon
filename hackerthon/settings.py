@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "django.contrib.sites",
     'accounts.providers.kakao',
     'accounts.providers.naver',
+    'sorl.thumbnail',
 
 ]
 

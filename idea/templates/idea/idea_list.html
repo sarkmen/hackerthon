@@ -1,5 +1,6 @@
  {% extends 'base.html' %}
  {% load staticfiles %}
+ {% load thumbnail %}
  {% block content %}
 
     <!-- Page Header -->
@@ -23,6 +24,11 @@
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <a href = "{% url 'idea:idea_new' %}" style = "float : right">새 글쓰기</a>
             {% for idea in idea_list %}
+                                {% if idea.image %}
+                    {% thumbnail idea.image "100x100" crop="center" as im %}
+                    <img src = "{{im.url}}" width = "{{im.width}}"" height="{{im.height}}" class = "img-thumbnail img-responsive center-block" alt=""/>
+                    {% endthumbnail %}
+                    {% endif %}
             <div class="post-preview">
                 <a href="{% url 'idea:idea_detail' idea.pk %}">
                     <h2 class="post-title">
