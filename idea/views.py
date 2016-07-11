@@ -3,6 +3,11 @@ from django.contrib.auth.decorators import login_required
 from .models import Idea, Comment
 from .forms import IdeaForm, CommentForm
 from hackerthon.decorators import user_wrote_this
+from django.contrib.auth.models import User
+from accounts.models import Profile
+from allauth.socialaccount.models import SocialAccount
+
+
 def index(request):
     return render(request, 'idea/index.html', {
         })
@@ -32,11 +37,9 @@ def idea_detail(request, pk):
             })
 
 @login_required
-@user_wrote_this(Idea)
 def idea_new(request):
     if request.method == "POST":
         form = IdeaForm(request.POST, request.FILES)
-        print(form.is_valid())
         if form.is_valid():
             idea = form.save(commit=False)
             idea.author = request.user
@@ -109,8 +112,10 @@ def recommend_del(request, pk):
     return redirect('index')
 
 
-def post(request):
-    return render(request, "idea/post.html")
+def users(request):
+    social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
+    profiles = Profile.objects.all()
+    return render(request, "idea/users.html", {'profiles': profiles,'facebooks': social_accounts_facebook})
 
 def location(request):
     return render(request, "idea/location.html")

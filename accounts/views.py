@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model, authenticate, login as auth_logi
 def sign_up(request):
     if request.method == "POST":
         form = SignupForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             form.save()
             authenticated_user = authenticate(
@@ -14,4 +15,4 @@ def sign_up(request):
             return redirect("index")
     else:
         form = SignupForm()
-        return render(request, 'accounts/signup_form.html',{'form': form,})
+    return render(request, 'accounts/signup_form.html',{'form': form,})

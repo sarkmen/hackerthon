@@ -21,6 +21,7 @@ def kakao_complete_login(request, app, token):
     resp.raise_for_status()
     extra_data = resp.json()
     extra_data['name'] = extra_data['properties']['nickname']
+    extra_data['image'] = extra_data['properties']['profile_image']
     login = provider.sociallogin_from_response(request, extra_data)
     return login
 

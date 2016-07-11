@@ -1,5 +1,5 @@
 from django.conf import settings
-
+from accounts.models import Profile
 from allauth.socialaccount import providers
 from allauth.socialaccount.providers.base import ProviderAccount
 from allauth.socialaccount.providers.oauth2.provider import OAuth2Provider
@@ -34,6 +34,9 @@ class KakaoProvider(OAuth2Provider):
         sociallogin = super(KakaoProvider, self).sociallogin_from_response(request, response)
         if not sociallogin.user.username:
             sociallogin.user.username = 'kakao_%s' % sociallogin.account.extra_data['id']
+            sociallogin.user.first_name = response['name']
+            profile = Profile(name = response['name'],image = response["image"])
+            profile.save()
         return sociallogin
 
     def extract_uid(self, data):

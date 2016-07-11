@@ -15,6 +15,6 @@ urlpatterns = [
 
 
     #Sample
-    url(r'^post/$', views.post, name="post"),
+    url(r'^users/$', views.users, name="users"),
     url(r'^location/$', views.location, name="location")
 ]

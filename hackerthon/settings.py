@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    'allauth.socialaccount.providers.facebook',
     'bootstrap3',
     'idea',
     'accounts',
@@ -160,65 +161,16 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 
-# Social Login
-
-SOCIALAACOUNT_AUTO_SIGNUP = True
-ACCOUNT_SIGNUP_FORM_CLASS = None
-
-SOCIALACCOUNT_PROVIDERS = {
-        'kakao' : {
-            'AUTH_PARAMS' : {},
-            'VERIFIED_EMAIL' : False}}
-
 AUTHENTICATION_BACKENDS = (
+    'social.backends.facebook.FacebookOAuth2',
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
     'allauth.account.auth_backends.AuthenticationBackend',
-    'social.backends.facebook.FacebookOAuth2',
+
     #'social.backends.google.GoogleOAuth2',
     # 'social.backends.twitter.TwitterOAuth',
-    'django.contrib.auth.backends.ModelBackend',
 )
-
-SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/home/'
-SOCIAL_AUTH_URL_NAMESPACE = 'social'
-SOCIAL_AUTH_COMPLETE_URL_NAME  = 'socialauth_complete'
-
-SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.auth_allowed',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    # 'social.pipeline.user.create_user',
-
-    'social.pipeline.social_auth.associate_user',
-    'social.pipeline.social_auth.load_extra_data',
-    'social.pipeline.user.user_details'
-)
-# Facebook
-from .secret import facebook_app_id, facebook_app_password
-SOCIAL_AUTH_FACEBOOK_KEY = facebook_app_id
-SOCIAL_AUTH_FACEBOOK_SECRET = facebook_app_password
-
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
-FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'picture']
-SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'fields': 'id, name, email, age_range'
-}
-"""
-#Google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = ''
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''
-"""
-# Twitter
-# SOCIAL_AUTH_TWITTER_KEY = ''
-# SOCIAL_AUTH_TWITTER_SECRET = ''
-
-# SOCIAL_AUTH_KAKAO_SCOPE = [...]
-SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
-
 
 
 
