@@ -3,21 +3,22 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Hackerthon</title>
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+    {# <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css"> #}
+    {# <link href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic" rel="stylesheet" type="text/css"> #}
 
     <!-- Theme CSS -->
-    <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet">
-
+    <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet" type="text/css">
+    {# comment CSS #}
+    <link href="{% static 'css/comment.css'%}" rel="stylesheet" type="text/css">
 
     <!-- jQuery -->
-    <script src="{% static 'vender/jquery/jquery.js'%}"></script>
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
 </head>
 <body>
@@ -82,7 +83,7 @@
                 <span style="font-family : sans-serif;">
                 Supported by 중소기업청 기업가센터
                 <hr>
-                Developed by 김범준, 안주은
+                Developed by 김범준, 안주은, 공현택
                 </span></div>
                 <ul class="list-inline text-center">
                     <li>

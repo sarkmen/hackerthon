@@ -19,41 +19,150 @@
         </div>
     </header>
 
-{{idea.title}}
-{{idea.content}}
-<img src="{{idea.image.url}}"/>
+    <div class="container col-md-9 col-md-offset-1">
+    {# 글 내용 부분 #}
+        <div class="row col-sm-12">
+            <h1>{{idea.title}}</h1>
+            <p class="lead">
+                by {{idea.author}}
+                {% if idea.author == user %}
+                <span class="pull-right">
+                    <a class="btn btn-primary" href="{% url 'idea:idea_edit' idea.pk %}">수정</a>
+                    <a class="btn btn-danger" href="{% url 'idea:idea_del' idea.pk %}">삭제</a>
+                </span>
+                {% endif %}
+            </p>
+            <hr>
+            <p>
+                <i class="fa fa-clock-o"></i> Posted on {{idea.created_at|date:'Y-m-d H:i'}}<br>
+                <i class="fa fa-refresh"></i> Last updated on {{idea.updated_at|date:'Y-m-d H:i'}}
+            </p>
+            <hr>
+            <img src="{{idea.image.url}}" class="img-responsive center-block" width="80%">
+            <hr>
+            <p class="lead">{{idea.contents}}</p>
+            <hr>
+        </div>
 
-{% if idea.author == user %}
-<a href = "{% url 'idea:idea_edit' idea.pk %}">아이디어 수정</a> <a href = "{% url 'idea:idea_del' idea.pk %}">아이디어 삭제</a>
-{% endif %}
-<div class = "container">
-    <div class = "row">
-        <div class = "col-sm-6 col-md-offset-3">
-            <form action="" method = "post" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div class = "panel panel-default">
-                    <div class = "panel-heading"></div>
-                    <div class = "panel-body">
-                        {% bootstrap_form form %}
+
+        <!-- <div class="row col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-heading text-center">{{idea.title}}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{idea.contents}}
+                        </div>
                     </div>
-                    <div class = "panel-footer text-right">
-                        <input type = "submit" class = "btn btn-default" value = "댓글달기"/>
-                       <br>
-                    </div>
+                    <hr class="small left" style="margin: 25px auto;">
+                    <div class="row">
+                        <img src="{{idea.image.url}}" class="img-responsive center-block" width="80%" >
                     </div>
                 </div>
-            </form>
+                <div class="panel-footer">
+                    <div class="row small text-center">
+                        작성일시: {{idea.created_at|date:'Y-m-d H:i'}}
+                    </div>
+                    <div class="row small text-center">
+                        마지막 수정일시: {{idea.updated_at|date:'Y-m-d H:i'}}
+                    </div>
+                    {% if idea.author == user %}
+                    <div class="row">
+                        <div class="col-xs-3 col-xs-offset-3 text-right">
+                            <a class="btn btn-xs btn-primary" href="{% url 'idea:idea_edit' idea.pk %}">수정</a>
+                        </div>
+                        <div class="col-xs-3">
+                            <a class="btn btn-xs btn-danger" href="{% url 'idea:idea_del' idea.pk %}">삭제</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div> -->
+
+    {# 댓글 다는 부분 #}
+        <div class="row col-sm-6">
+            <section class="comment">
+                <article class="row">
+                    <div class="col-sm-2 hidden-xs">
+                        {# 개인 프로필 사진 넣기 #}
+                        <figure class="thumbnail user-photo">
+                            <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-responsive" >
+                        </figure>
+                    </div>
+                    <div class="col-sm-9 col-sm-offset-1">
+                        <div class="comment-list">
+                            <div class="panel panel-default arrow left">
+                                <div class="panel-body">
+                                    <form action="" method="post" enctype="multipart/form-data">
+                                        {% csrf_token %}
+                                        {% bootstrap_form form layout='inline' %}
+                                        <div style="display:none;" id="comment-footer">
+                                            <button type="submit" class="btn btn-primary btn-xs pull-right">확인</button>
+                                            <span class="pull-right">&nbsp;</span>
+                                            <button type="reset" class="btn btn-danger btn-xs pull-right form-cancel">취소</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <hr>
+        </div>
+
+    {# 댓글 보는 부분 #}
+        <div class="row col-sm-9">
+        {% if comments %}
+        <section class="comment-list">
+            {% for comment in comments %}
+                <article class="row">
+                    <div class="col-sm-2 hidden-xs">
+                        {# ---프로필 사진이 들어갈 곳--- #}
+                        <figure class="thumbnail user-photo">
+                            <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="img-responsive" >
+                        </figure>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="panel panel-default arrow left">
+                            <div class="panel-body">
+                                <header class="text-left">
+                                    <div class="comment-user"><i class="fa fa-user"></i> <strong>{{comment.author}}</strong></div>
+                                    <time class="comment-date small text-muted"><i class="fa fa-clock-o"></i> {{comment.updated_at}}</time>
+                                </header>
+                            <div class="comment-post">
+                                {{comment.contents}}
+                            </div>
+                            </div>
+                            {%if comment.author == user %}
+                            <div class="panel-footer text-right">
+                                <a class="btn btn-xs btn-primary" href="{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a>
+                                <a class="btn btn-xs btn-danger" href="{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+            {% else %}
+                <div class="row wrap">
+                    댓글없음
+                </div>
+        {% endif %}
         </div>
     </div>
-</div>
-{% for comment in comments %}
-{{comment.author}}
-{%if comment.author == user %}
-<a href = "{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a> <a href = "{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a>
-{% endif %}
-<br>
-{{comment.contents}}
-<br>
-{% endfor %}
+
+    <script>
+    $(document).ready(function() {
+        $('.form-control').focus(function() {
+            $('#comment-footer').css('display','inline')
+        })
+        $('.form-cancel').click(function() {
+            $('#comment-footer').css('display','none')
+        })
+    })
+    </script>
 
 {% endblock %}

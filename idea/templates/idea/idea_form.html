@@ -1,15 +1,23 @@
 {% extends 'form.html' %}
 {% load staticfiles %}
+{% load bootstrap3 %}
 {% block content %}
-
 <br>
 <br>
 <br>
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <input type="submit">
-</form>
+<div class="container">
+    <div class="row wrap">
+        <div class="col-md-9 content">
+            <h1>아이디어 등록</h1>
+            <form role="form" action="" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                    {% bootstrap_field form.title%}
+                    {% bootstrap_field form.contents %}
+                    {% bootstrap_field form.image %}
+                <button type="submit" class="btn btn-primary btn-lg">등록</button>
+            </form>
+        </div>
+    </div>
+</div>
+</div>
 {% endblock %}
