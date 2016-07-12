@@ -35,8 +35,6 @@ class KakaoProvider(OAuth2Provider):
         if not sociallogin.user.username:
             sociallogin.user.username = 'kakao_%s' % sociallogin.account.extra_data['id']
             sociallogin.user.first_name = response['name']
-            profile = Profile(name = response['name'],image = response["image"])
-            profile.save()
         return sociallogin
 
     def extract_uid(self, data):

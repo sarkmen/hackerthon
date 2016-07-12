@@ -8,6 +8,7 @@ from accounts.models import Profile
 from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
+import json
 
 def index(request):
     return render(request, 'idea/index.html', {
@@ -139,8 +140,17 @@ def recommend_del(request, pk):
 
 def users(request):
     social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
-    profiles = Profile.objects.all()
-    return render(request, "idea/users.html", {'profiles': profiles,'facebooks': social_accounts_facebook})
+    social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
+    kakaos = {}
+    facebooks = {}
+    for kakao in social_accounts_kakao:
+        kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
+
+
+    for facebook in social_accounts_facebook:
+        facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
+
+    return render(request, "idea/users.html", {'kakaos':kakaos,'facebooks': facebooks})
 
 def location(request):
     return render(request, "idea/location.html")
