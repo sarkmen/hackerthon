@@ -37,6 +37,7 @@ def idea_detail(request, pk):
             return redirect("idea:idea_detail", pk = idea.pk)
     else:
         form = CommentForm()
+        print(form)
         local_now = timezone.localtime(timezone.now())
         comments = Comment.objects.filter(idea = idea)
         for comment in comments:

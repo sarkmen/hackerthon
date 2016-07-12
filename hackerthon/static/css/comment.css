@@ -24,6 +24,9 @@
   /*For wrapping text in thumbnail*/
   word-wrap: break-word;
 }
+.panel-body.no-padding{
+  padding: 10px;
+}
 /* Portrait tablets and medium desktops */
 @media (min-width: 768px) {
   .comment-list .arrow:after, .comment-list .arrow:before {
@@ -41,7 +44,7 @@
   /*Outline effect style*/
   .comment-list .panel.arrow.left:before {
     left: 0px;
-    top: 30px;
+    top: 10px;
     /*Use boarder color of panel*/
     border-right-color: inherit;
     border-width: 16px;
@@ -49,7 +52,7 @@
   /*Background color effect*/
   .comment-list .panel.arrow.left:after {
     left: 1px;
-    top: 31px;
+    top: 11px;
     /*Change for different outline color*/
     border-right-color: #FFFFFF;
     border-width: 15px;
@@ -60,11 +63,10 @@
 
 /*user-photo auto resizing*/
 figure.user-photo{
-  height: auto;
   display: inline-block;
 }
 
 figure.user-photo img {
-  height: 80px;
-  min-width: 80px;
+  height: 50px;
+  min-width: 50px;
 }​
