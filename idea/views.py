@@ -37,6 +37,7 @@ def idea_detail(request, pk):
             comment.save()
             return redirect("idea:idea_detail", pk = idea.pk)
     else:
+        social_accounts = SocialAccount.objects.all()
         form = CommentForm()
         local_now = timezone.localtime(timezone.now())
         comments = Comment.objects.filter(idea = idea)

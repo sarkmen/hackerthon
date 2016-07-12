@@ -47,12 +47,16 @@
         <div class="container">
             <div>
             {% for kakao_value in kakaos.values %}
+            <div>
                 {{kakao_value|split:","|lookup:0}}
                 <img src = "{{kakao_value|split:','|lookup:1}}">
+            </div>
             {% endfor %}
             {% for facebook_id , facebook_name in facebooks.items %}
+            <div>
                 {{facebook_name}}
                 <img src = "http://graph.facebook.com/{{facebook_id}}/picture?type=large">
+            </div>
             {% endfor %}
             </div>
             <div class="row">
