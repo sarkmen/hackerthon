@@ -1,57 +1,55 @@
- {% extends 'base.html' %}
- {% load staticfiles %}
- {% load thumbnail %}
- {% block content %}
+  {% extends 'base.html' %}
+  {% load staticfiles %}
+  {% load thumbnail %}
+  {% block content %}
 
-    <!-- Page Header -->
-    <!-- Set your background image for this header on the line below. -->
-    <header class="intro-header" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="page-heading">
-                        <h1>Idea</h1>
-                        <hr class="small">
-                        <span class="subheading">This is what I do.</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            {%if user.is_authenticated %}
-            <a href = "{% url 'idea:idea_new' %}" style = "float : right">새 글쓰기</a>
-            {% endif %}
-            {% for idea in idea_list %}
-                                {% if idea.image %}
-                    {% thumbnail idea.image "100x100" crop="center" as im %}
-                    <img src = "{{im.url}}" width = "{{im.width}}"" height="{{im.height}}" class = "img-thumbnail img-responsive center-block" alt=""/>
-                    {% endthumbnail %}
-                    {% endif %}
-            <div class="post-preview">
-                <a href="{% url 'idea:idea_detail' idea.pk %}">
-                    <h2 class="post-title">
-                        {{idea.title}}
-                    </h2>
-                </a>
-                <p class="post-meta">Posted by {{idea.author}} &nbsp {{idea.updated_at}}</p>
-            </div>
-            <hr>
-            {% endfor %}
-            <hr>
-
-            <!-- Pager
-            <ul class="pager">
-                <li class="next">
-                    <a href="#">Older Posts &rarr;</a>
-                </li>
-            </ul>
-            -->
-        </div>
-    </div>
-</div>
-
-{% endblock %}
+     <!-- Page Header -->
+     <!-- Set your background image for this header on the line below. -->
+     <header class="intro-header" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
+         <div class="container">
+             <div class="row">
+                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                     <div class="page-heading">
+                         <h1>Idea</h1>
+                         <hr class="small">
+                         <span class="subheading">This is what I do.</span>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </header>
+ <!-- Main Content -->
+ <div class="container">
+     <div class="row">
+         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+             {%if user.is_authenticated %}
+             <a href = "{% url 'idea:idea_new' %}" style = "float : right">새 글쓰기</a>
+             {% endif %}
+             {% for idea in idea_list %}
+                                 {% if idea.image %}
+                     {% thumbnail idea.image "100x100" crop="center" as im %}
+                     <img src = "{{im.url}}" width = "{{im.width}}" height="{{im.height}}" class = "img-thumbnail img-responsive center-block" alt=""/>
+                     {% endthumbnail %}
+                     {% endif %}
+             <div class="post-preview">
+                 <a href="{% url 'idea:idea_detail' idea.pk %}">
+                     <h2 class="post-title">
+                         {{idea.title}}
+                     </h2>
+                 </a>
+                 <p class="post-meta">Posted by {{idea.author}} &nbsp {{idea.updated_at}}</p>
+             </div>
+             <hr>
+             {% endfor %}
+             <hr>
+             <!-- Pager
+             <ul class="pager">
+                 <li class="next">
+                     <a href="#">Older Posts &rarr;</a>
+                 </li>
+             </ul>
+             -->
+         </div>
+     </div>
+ </div>
+ {% endblock %}

@@ -34,3 +34,6 @@ class SignupForm(UserCreationForm):
         if User.objects.filter(email=data).exists():
             raise forms.ValidationError("이미 동일한 이메일이 존재합니다.")
         return data
+
+
+
