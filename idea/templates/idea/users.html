@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
+{% load idea_extras %}
 {% block content %}
     <!-- Page Header -->
     <!-- Set your background image for this header on the line below. -->
@@ -45,12 +46,13 @@
     <article>
         <div class="container">
             <div>
-            {% for profile in profiles %}
-            <img src = "{{profile.image}}">
-            {{profile.name}}
+            {% for kakao_value in kakaos.values %}
+                {{kakao_value|split:","|lookup:0}}
+                <img src = "{{kakao_value|split:','|lookup:1}}">
             {% endfor %}
-            {% for facebook in facebooks %}
-            <img src = "http://graph.facebook.com/{{facebook.uid}}/picture?type=large">
+            {% for facebook_id , facebook_name in facebooks.items %}
+                {{facebook_name}}
+                <img src = "http://graph.facebook.com/{{facebook_id}}/picture?type=large">
             {% endfor %}
             </div>
             <div class="row">
