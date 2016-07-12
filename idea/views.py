@@ -39,6 +39,7 @@ def idea_detail(request, pk):
     else:
         social_accounts = SocialAccount.objects.all()
         form = CommentForm()
+        print(form)
         local_now = timezone.localtime(timezone.now())
         comments = Comment.objects.filter(idea = idea)
         for comment in comments:

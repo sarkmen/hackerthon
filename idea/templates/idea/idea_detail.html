@@ -23,15 +23,21 @@
     <div class="container col-md-9 col-md-offset-1">
     {# 글 내용 부분 #}
         <div class="row col-sm-12">
-            <h1>{{idea.title}}</h1>
+
+            <h1>
+            <span>{{idea.title}}</span>
+            {% if idea.author == user %}
+            <span class="dropdown btn-group pull-right">
+                <i class="fa fa-bars fa-lg" aria-hidden="true" data-toggle="dropdown"></i>
+                <ul class="dropdown-menu" style="min-width: 30px">
+                <li><a href="{% url 'idea:idea_edit' idea.pk %}">수정</a></li>
+                <li><a href="{% url 'idea:idea_del' idea.pk %}">삭제</a></li>
+                </ul>
+            </span>
+            {% endif %}
+            </h1>
             <p class="lead">
                 by {{idea.author}}
-                {% if idea.author == user %}
-                <span class="pull-right">
-                    <a class="btn btn-primary" href="{% url 'idea:idea_edit' idea.pk %}">수정</a>
-                    <a class="btn btn-danger" href="{% url 'idea:idea_del' idea.pk %}">삭제</a>
-                </span>
-                {% endif %}
             </p>
             <hr>
             <p>
@@ -147,7 +153,7 @@
                     </div>
                     <div class="col-sm-6">
                         <div class="panel panel-default arrow left">
-                            <div class="panel-body">
+                            <div class="panel-body no-padding">
                                 <header class="text-left">
                                     <div class="comment-user"><i class="fa fa-user"></i> <strong>
                             {% if comment.author.socialaccount_set.all %}
@@ -163,17 +169,20 @@
                             {% endif %}
                                     </strong></div>
                                     <time class="comment-date small text-muted"><i class="fa fa-clock-o"></i> {{comment.updated_at}}</time>
+                                    {%if comment.author == user %}
+                                    <div class="dropdown btn-group pull-right">
+                                        <i class="fa fa-bars" aria-hidden="true" data-toggle="dropdown"></i>
+                                        <ul class="dropdown-menu" style="min-width: 30px">
+                                        <li><a href="{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a></li>
+                                        <li><a href="{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a></li>
+                                        </ul>
+                                    </div>
+                                    {% endif %}
                                 </header>
                             <div class="comment-post">
                                 {{comment.contents}}
                             </div>
                             </div>
-                            {%if comment.author == user %}
-                            <div class="panel-footer text-right">
-                                <a class="btn btn-xs btn-primary" href="{% url 'idea:comment_edit' idea.pk comment.pk %}">수정</a>
-                                <a class="btn btn-xs btn-danger" href="{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a>
-                            </div>
-                            {% endif %}
                         </div>
                     </div>
                 </article>

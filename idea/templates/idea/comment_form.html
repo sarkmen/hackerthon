@@ -6,10 +6,8 @@
     <div class="container">
         <div class="col-md -9">
             <form action="" enctype="multipart/form-data" method="post">
-            {% csrf_token %}
-                <div class="form-group">
+                {% csrf_token %}
                 {%bootstrap_field form.contents%}
-                </div>
                 <button type="submit" class="btn btn-primary">댓글 달기</button>
             </form>
         </div>
