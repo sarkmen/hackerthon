@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts.providers.kakao',
     'accounts.providers.naver',
     'sorl.thumbnail',
+    'debug_toolbar',
 
 ]
 

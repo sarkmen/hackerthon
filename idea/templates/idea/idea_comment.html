@@ -1,0 +1,79 @@
+{%load staticfiles%}
+{# 댓글 달때 ajax 처리 후 로딩하는 부분 #}
+    {% if comments %}
+    <section class="comment-list">
+        {% for comment in comments %}
+            <article class="row">
+                <div class="col-sm-2 hidden-xs">
+                    {# ---프로필 사진이 들어갈 곳--- #}
+                    <figure class="thumbnail user-photo">
+                        {% if comment.author.socialaccount_set.all %}
+                            {%for account in comment.author.socialaccount_set.all%}
+                                {% if account.provider == "facebook" %}
+                                    <img src = "http://graph.facebook.com/{{account.extra_data.id}}/picture?type=large"  class="img-responsive">
+                                {% elif account.provider == "kakao" %}
+                                    <img src = {{account.extra_data.properties.profile_image}}>
+                                {%endif%}
+                            {% endfor %}
+                        {% else %}
+                            <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" >
+                        {%endif%}
+                    </figure>
+                </div>
+                <div class="col-sm-6">
+                    <div class="panel panel-default arrow left">
+                        <div class="panel-body no-padding">
+                            <header class="text-left">
+                                <div class="comment-user">
+                                {%if comment.author == user %}
+                                <div class="dropdown btn-group pull-right">
+                                    <i class="fa fa-bars" aria-hidden="true" data-toggle="dropdown"></i>
+                                    <ul class="dropdown-menu" style="min-width: 30px">
+                                    <li><a href="javascript:void(0)" class="a_comment_edit">수정</a></li>
+                                    <li><a href="{% url 'idea:comment_del' idea.pk comment.pk %}">삭제</a></li>
+                                    </ul>
+                                </div>
+                                {% endif %}
+                                <i class="fa fa-user"></i>
+                                    <strong>
+                                    {% if comment.author.socialaccount_set.all %}
+                                        {%for account in comment.author.socialaccount_set.all%}
+                                            {% if account.provider == "facebook" %}
+                                                {{comment.author.last_name}}{{comment.author.first_name}}
+                                            {% elif account.provider == "kakao" %}
+                                                {{comment.author.first_name}}
+                                            {%endif%}
+                                        {% endfor %}
+                                    {% else %}
+                                        {{comment.author}}
+                                    {% endif %}
+                                    </strong>
+                                </div>
+                                <time class="comment-date small text-muted">
+                                    <i class="fa fa-clock-o"></i>
+                                    {{comment.elapsed_time}}
+                                    {% if comment.created_at|date:'YmdHms' != comment.updated_at|date:'YmdHms' %}
+                                    (수정됨)
+                                    {% endif %}
+                                </time>
+                            </header>
+                            {# <form action="" method="POST" enctype="multipart/form-data"> #}
+                                <input type="hidden" class="comment-pk" value="{{comment.pk}}">
+                                <div class="comment-post">
+                                    <span class="comment-content">{{comment.contents}}</span>
+                                </div>
+                                <div class="comment-post-buttons" style="display:none">
+                                    <button class="btn btn-primary btn-xs edit-submit">확인</button> <button class="btn btn-danger btn-xs edit-cancel">취소</button>
+                                </div>
+                            {# </form> #}
+                        </div>
+                    </div>
+                </div>
+            </article>
+        {% endfor %}
+    </section>
+        {% else %}
+            <div class="row wrap">
+                댓글없음
+            </div>
+    {% endif %}

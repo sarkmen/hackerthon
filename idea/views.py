@@ -10,6 +10,7 @@ from django.utils import timezone
 from datetime import timedelta
 import json
 
+
 def index(request):
     return render(request, 'idea/index.html', {
         })
@@ -39,21 +40,50 @@ def generate_elapsed_time(duration):
         elapsed_time = str(hour) + ' hour ago'
     elif mins > 0:
         elapsed_time = str(mins) + ' minute ago'
-    else:
+    elif sec > 0:
         elapsed_time = str(sec) + ' seconds ago'
+    else:
+        elapsed_time = 'now'
     return elapsed_time
 
 @login_required
 def idea_detail(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
-    if request.method == "POST":
+    request_post = request.POST.dict()
+    if request.method == "POST" and request.is_ajax() and request_post['formtype'] == 'comment-add':
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
             comment.idea = idea
             comment.author = request.user
             comment.save()
-            return redirect("idea:idea_detail", pk = idea.pk)
+
+            local_now = timezone.localtime(timezone.now())
+            comments = Comment.objects.filter(idea = idea)
+            for comment in comments:
+                comment.elapsed_time = generate_elapsed_time(local_now - comment.updated_at)
+            context = {
+                'idea' : idea,
+                'comments' : comments,
+            }
+            return render(request, 'idea/idea_comment.html', context)
+    elif request.method == "POST" and request.is_ajax() and request_post['formtype'] == 'comment-edit':
+        # comment_edit(request, pk, str(request_post['comment']))
+
+        comment = get_object_or_404(Comment, pk=request_post['comment'])
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            comment = form.save()
+
+            local_now = timezone.localtime(timezone.now())
+            comments = Comment.objects.filter(idea = idea)
+            for comment in comments:
+                comment.elapsed_time = generate_elapsed_time(local_now - comment.updated_at)
+            context = {
+                'idea' : idea,
+                'comments' : comments,
+            }
+            return render(request, 'idea/idea_comment.html', context)
     else:
         social_accounts = SocialAccount.objects.all()
         form = CommentForm()
@@ -88,6 +118,7 @@ def idea_edit(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     if request.method == "POST":
         form = IdeaForm(request.POST, request.FILES, instance=idea)
+
         if form.is_valid():
             idea = form.save()
             return redirect('idea:idea_detail', pk=idea.pk)
@@ -113,12 +144,22 @@ def comment_edit(request, idea_pk, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save()
-            return redirect('idea:idea_detail', pk=idea_pk)
-    else:
-        form = CommentForm(instance=comment)
-    return render(request, 'idea/comment_form.html', {
-        'form' : form,
-        })
+
+            local_now = timezone.localtime(timezone.now())
+            comments = Comment.objects.filter(idea = idea)
+            for comment in comments:
+                comment.elapsed_time = generate_elapsed_time(local_now - comment.updated_at)
+            context = {
+                'idea' : idea,
+                'comments' : comments,
+            }
+            return render(request, 'idea/idea_comment.html', context)
+            # return redirect('idea:idea_detail', pk=idea_pk)
+    # else:
+    #     form = CommentForm(instance=comment)
+    # return render(request, 'idea/comment_form.html', {
+    #     'form' : form,
+    #     })
 
 @login_required
 @user_wrote_this(Comment)
@@ -150,7 +191,6 @@ def users(request):
     facebooks = {}
     for kakao in social_accounts_kakao:
         kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
-
 
     for facebook in social_accounts_facebook:
         facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
