@@ -70,3 +70,26 @@ figure.user-photo img {
   height: 50px;
   min-width: 50px;
 }​
+
+.idea_container {
+  display: block;
+  margin: 10px 0px;
+}
+
+.idea_container .img_container,
+.idea_container .img_container img {
+  padding: 0px;
+}
+
+.idea_container .idea_title {
+  border-color: #dcdcdc;
+  border-width: 0px 2px 2px 2px;
+  border-style: solid;
+  color: #a9a9a9;
+}
+
+.idea_container .idea_title > h3 {
+  color: black;
+  margin-top: 0px;
+  word-wrap: break-word;
+}

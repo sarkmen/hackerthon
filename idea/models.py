@@ -10,6 +10,9 @@ class Idea(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def __str__(cls):
+        return cls.title
+
 
 class Comment(models.Model):
     idea = models.ForeignKey(Idea)
@@ -17,3 +20,6 @@ class Comment(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(cls):
+        return cls.author

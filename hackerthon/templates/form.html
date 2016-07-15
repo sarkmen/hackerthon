@@ -15,8 +15,6 @@
 
     <!-- Theme CSS -->
     <link href="{% static 'css/clean-blog.min.css'%}" rel="stylesheet">
-    {# comment CSS #}
-    <link href="{% static 'css/comment.css'%}" rel="stylesheet" type="text/css">
 
 
 </head>
@@ -117,6 +115,7 @@
 
     <!-- Theme JavaScript -->
     <script src="{% static 'js/clean-blog.min.js'%}"></script>
-
+    {% block script %}
+    {% endblock %}
 </body>
 </html>

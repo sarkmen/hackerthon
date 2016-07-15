@@ -172,5 +172,6 @@ AUTHENTICATION_BACKENDS = (
     # 'social.backends.twitter.TwitterOAuth',
 )
 
+THUMBNAIL_DEBUG = True
 
 

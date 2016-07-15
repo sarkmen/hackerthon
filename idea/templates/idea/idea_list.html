@@ -1,55 +1,64 @@
-  {% extends 'base.html' %}
-  {% load staticfiles %}
-  {% load thumbnail %}
-  {% block content %}
-
-     <!-- Page Header -->
-     <!-- Set your background image for this header on the line below. -->
-     <header class="intro-header" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
-         <div class="container">
-             <div class="row">
-                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                     <div class="page-heading">
-                         <h1>Idea</h1>
-                         <hr class="small">
-                         <span class="subheading">This is what I do.</span>
-                     </div>
-                 </div>
-             </div>
-         </div>
-     </header>
- <!-- Main Content -->
- <div class="container">
-     <div class="row">
-         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-             {%if user.is_authenticated %}
-             <a href = "{% url 'idea:idea_new' %}" style = "float : right">새 글쓰기</a>
-             {% endif %}
-             {% for idea in idea_list %}
-                                 {% if idea.image %}
-                     {% thumbnail idea.image "100x100" crop="center" as im %}
-                     <img src = "{{im.url}}" width = "{{im.width}}" height="{{im.height}}" class = "img-thumbnail img-responsive center-block" alt=""/>
-                     {% endthumbnail %}
-                     {% endif %}
-             <div class="post-preview">
-                 <a href="{% url 'idea:idea_detail' idea.pk %}">
-                     <h2 class="post-title">
-                         {{idea.title}}
-                     </h2>
-                 </a>
-                 <p class="post-meta">Posted by {{idea.author}} &nbsp {{idea.updated_at}}</p>
-             </div>
-             <hr>
-             {% endfor %}
-             <hr>
-             <!-- Pager
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load thumbnail %}
+{% block content %}
+<!-- Page Header -->
+<!-- Set your background image for this header on the line below. -->
+<header class="intro-header" style="background-image: url('{% static 'img/about-bg.jpg' %}')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="page-heading">
+                    <h1>Idea</h1>
+                    <hr class="small">
+                    <span class="subheading">This is what I do.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-10 col-lg-offset-1 col-md-12">
+            {%if user.is_authenticated %}
+            <div class="row">
+                <a href="{% url 'idea:idea_new' %}" style="float : right"><h4>[새 글쓰기]</h4></a>
+            </div>
+            {% endif %}
+            {% for idea in idea_list %}
+                <div class="col-md-4 col-sm-6 wow slideInUp" data-wow-delay='0.1s'>
+                <div class="idea_container" style="margin:10px 0px;">
+                    <div class="img_container container-fluid">
+                        <a href="{% url 'idea:idea_detail' idea.pk %}">
+                        {% if idea.image %}
+                            {% thumbnail idea.image "150x100" crop="center" as im %}
+                            <img src="{{im.url}}" width="{{im.width}}" height="{{im.height}}" class="img-responsive col-xs-12" alt="">
+                            {% endthumbnail %}
+                        {% else %}
+                        <h3>{{idea.title}}</h3>
+                        {% endif %}
+                        </a>
+                    </div>
+                    <div class="idea_title">
+                        <h3>{{idea.title}}</h3>
+                        <div class="wrap"><i class="fa fa-user" aria-hidden="true"></i> {{idea.author}}</div>
+                        <div class="span12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{idea.updated_at|date:'Y-m-d H:m'}}</div>
+                    </div>
+                </div>
+                </div>
+            {% endfor %}
+            <!-- Pager
              <ul class="pager">
                  <li class="next">
                      <a href="#">Older Posts &rarr;</a>
                  </li>
              </ul>
              -->
-         </div>
-     </div>
- </div>
- {% endblock %}
+        </div>
+    </div>
+</div>
+<script>
+    new WOW().init();
+</script>
+{% endblock %}

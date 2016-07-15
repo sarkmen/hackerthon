@@ -15,7 +15,7 @@ def index(request):
         })
 
 def idea_list(request):
-    idea_list = Idea.objects.all()
+    idea_list = Idea.objects.all().order_by('-id')
     return render(request, 'idea/idea_list.html', {'idea_list': idea_list})
 
 def convert_timedelta(duration):
@@ -24,6 +24,24 @@ def convert_timedelta(duration):
     minutes = (seconds % 3600) // 60
     seconds = (seconds % 60)
     return days, hours, minutes, seconds
+
+def generate_elapsed_time(duration):
+    day, hour, mins, sec = convert_timedelta(duration)
+    if day >= 365:
+        elapsed_time = str(day // 365) + ' year ago'
+    elif day >= 30:
+        elapsed_time = str(day // 30) + ' month ago'
+    elif day >= 7:
+        elapsed_time = str(day // 7) + ' week ago'
+    elif day > 0:
+        elapsed_time = str(day) + ' day ago'
+    elif hour > 0:
+        elapsed_time = str(hour) + ' hour ago'
+    elif mins > 0:
+        elapsed_time = str(mins) + ' minute ago'
+    else:
+        elapsed_time = str(sec) + ' seconds ago'
+    return elapsed_time
 
 @login_required
 def idea_detail(request, pk):
@@ -39,25 +57,10 @@ def idea_detail(request, pk):
     else:
         social_accounts = SocialAccount.objects.all()
         form = CommentForm()
-        print(form)
         local_now = timezone.localtime(timezone.now())
         comments = Comment.objects.filter(idea = idea)
         for comment in comments:
-            day, hour, mins, sec = convert_timedelta(local_now - comment.updated_at)
-            if day >= 365:
-                comment.updated_at = str(day // 365) + ' year ago'
-            elif day >= 30:
-                comment.updated_at = str(day // 30) + ' month ago'
-            elif day >= 7:
-                comment.updated_at = str(day // 7) + ' week ago'
-            elif day > 0:
-                comment.updated_at = str(day) + ' day ago'
-            elif hour > 0:
-                comment.updated_at = str(hour) + ' hour ago'
-            elif mins > 0:
-                comment.updated_at = str(mins) + ' minute ago'
-            else:
-                comment.updated_at = str(sec) + ' seconds ago'
+            comment.elapsed_time = generate_elapsed_time(local_now - comment.updated_at)
         return render(request, 'idea/idea_detail.html', {
             'idea' : idea,
             'comments' : comments,
