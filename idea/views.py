@@ -1,12 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import Idea, Comment
+from .models import Idea, Comment, Vote
 from .forms import IdeaForm, CommentForm
 from hackerthon.decorators import user_wrote_this, get_resume
 from django.contrib.auth.models import User
 from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
+from django.db.models import Count
 
 
 def index(request):
@@ -23,7 +24,7 @@ def index(request):
     return render(request, 'idea/index.html',{'kakaos':kakaos,'facebooks': facebooks})
 
 def idea_list(request):
-    idea_list = Idea.objects.all().order_by('-id')
+    idea_list = Idea.objects.all().annotate(vote_count = Count('vote')).order_by('-vote_count')
     return render(request, 'idea/idea_list.html', {'idea_list': idea_list})
 
 def convert_timedelta(duration):
@@ -90,6 +91,14 @@ def idea_detail(request, pk):
                 'comments' : comments,
             }
             return render(request, 'idea/idea_comment.html', context)
+    elif request.method == "POST":
+        if Vote.objects.filter(vote_user = request.user).count()<4 and not Vote.objects.filter(vote_user=request.user, vote_idea=idea).exists():
+            #메세지 넣기
+            Vote.objects.create(vote_user=request.user, vote_idea = idea)
+            return redirect('idea:idea_detail', pk=idea.pk)
+        else:
+            #실패했다는 메세지 넣어야함
+            return redirect('idea:idea_detail', pk=idea.pk)
     else:
         social_accounts = SocialAccount.objects.all()
         form = CommentForm()
@@ -186,17 +195,6 @@ def comment_del(request, idea_pk, pk):
     return redirect('idea:idea_detail', idea_pk)
 
 
-
-def recommend(request, pk):
-    idea = get_object_or_404(Idea, pk=pk)
-    idea.recommend += 1
-    request.user.recommend -= 1
-    return redirect('index')
-def recommend_del(request, pk):
-    idea = get_object_or_404(Idea, pk=pk)
-    idea.recommend -= 1
-    request.user.recommend += 1
-    return redirect('index')
 def users(request):
     social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")

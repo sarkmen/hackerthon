@@ -9,7 +9,6 @@ class Idea(models.Model):
     image = models.ImageField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
     def __str__(cls):
         return cls.title
 
@@ -23,3 +22,7 @@ class Comment(models.Model):
 
     def __str__(cls):
         return cls.author
+
+class Vote(models.Model):
+    vote_user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    vote_idea = models.ForeignKey(Idea)

@@ -23,6 +23,12 @@
 
     <div class="container col-md-9 col-md-offset-1">
     {# 글 내용 부분 #}
+        {# 투표 #}
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+                <input type="submit" value="투표" class = "btn btn-primary btn-lg">
+        </form>
+        투표수 : {{idea.vote_set.count}}
         <div class="row col-sm-12">
 
             <h1>

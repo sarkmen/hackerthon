@@ -1,6 +1,6 @@
 from django import forms
 from django.forms.widgets import FileInput
-from .models import Idea, Comment
+from .models import Idea, Comment, Vote
 
 class IdeaForm(forms.ModelForm):
     class Meta:
