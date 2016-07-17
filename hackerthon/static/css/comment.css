@@ -57,10 +57,20 @@
     border-right-color: #FFFFFF;
     border-width: 15px;
   }
-.comment-list .comment-post {
-  margin-top: 6px;
-}
+  .comment-list .comment-post {
+    margin-top: 6px;
+  }
+  /*idea_lint layout*/
+  .show-like-table {
+    display: table;
+  }
 
+  .show-like-table .wow {
+    float: none;
+    display: inline-block;
+    vertical-align: top;
+  }
+}
 /*user-photo auto resizing*/
 figure.user-photo{
   display: inline-block;
@@ -71,25 +81,27 @@ figure.user-photo img {
   min-width: 50px;
 }​
 
+/*idea-list css*/
 .idea_container {
-  display: block;
-  margin: 10px 0px;
+  display: inline-block;
 }
 
 .idea_container .img_container,
 .idea_container .img_container img {
+  margin: 10px 0 0 0;
   padding: 0px;
 }
 
 .idea_container .idea_title {
   border-color: #dcdcdc;
-  border-width: 0px 2px 2px 2px;
+  border-width: 0 2px 2px 2px;
   border-style: solid;
   color: #a9a9a9;
 }
 
-.idea_container .idea_title > h3 {
+.idea_container .idea_title>h3 {
   color: black;
-  margin-top: 0px;
+  margin-top: 0;
   word-wrap: break-word;
 }
+

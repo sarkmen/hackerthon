@@ -18,17 +18,19 @@
     </div>
 </header>
 <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-10 col-lg-offset-1 col-md-12">
+<div class="container-fluid">
+
+        <div class="col-md-offset-1 col-md-10 col-sm-12">
             {%if user.is_authenticated %}
-            <div class="row">
-                <a href="{% url 'idea:idea_new' %}" style="float : right"><h4>[새 글쓰기]</h4></a>
+            <div class="text-right">
+                <a href="{% url 'idea:idea_new' %}"><h4>[새 글쓰기]</h4></a>
             </div>
             {% endif %}
+
+            <div class="show-like-table">
             {% for idea in idea_list %}
-                <div class="col-md-4 col-sm-6 wow slideInUp" data-wow-delay='0.1s'>
-                <div class="idea_container" style="margin:10px 0px;">
+            <div class="col-md-4 col-sm-6 col-xs-12 wow slideInUp" data-wow-delay="0.1s">
+                <div class="idea_container">
                     <div class="img_container container-fluid">
                         <a href="{% url 'idea:idea_detail' idea.pk %}">
                         {% if idea.image %}
@@ -46,8 +48,9 @@
                         <div class="span12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{idea.updated_at|date:'Y-m-d H:m'}}</div>
                     </div>
                 </div>
-                </div>
+            </div>
             {% endfor %}
+            </div>
             <!-- Pager
              <ul class="pager">
                  <li class="next">
@@ -57,7 +60,7 @@
              -->
         </div>
     </div>
-</div>
+
 {% endblock %}
 {% block script %}
 <script>

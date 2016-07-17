@@ -21,19 +21,19 @@ $('.add_comment').on('click', function(e) {
         },
         success: function(data) {
             if (data){
-                console.log('success!')
                 $('.form-control').val('')
                 $('.comment-block').html(data)
                 $('#results').html('<div class="alert alert-success">성공적으로 댓글을 달았습니다.<a href="javascript:void(0)" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>')
+            }
+            else{
+                console.error('데이터가 안넘어옴')
             }
         },
         error: function(xhr,errmsg,err) {
             $('#results').html('<div class="alert alert-danger">에러가 발생했습니다 : '+errmsg+'('+xhr.status+')'+'<a href="javascript:void(0)" class="close" data-dismiss="alert" aria-label="close">&times;</a></div>')
         },
         complete: function() {
-            $.getScript(edit(), function() {
-                console.log('js loaded - add.js')
-            })
+            $.getScript(edit(), function() {})
         }
     })
 })
