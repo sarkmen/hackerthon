@@ -48,7 +48,7 @@ INSTALLED_APPS = [
     'social.apps.django_app.default',
     "django.contrib.sites",
     'accounts.providers.kakao',
-    'accounts.providers.naver',
+    #'accounts.providers.naver',
     'sorl.thumbnail',
     'debug_toolbar',
 
@@ -174,5 +174,13 @@ AUTHENTICATION_BACKENDS = (
 )
 
 THUMBNAIL_DEBUG = True
+
+## MESSAGES
+from django.contrib.messages import constants as messages_constants
+MESSAGE_TAGS = {
+    messages_constants.ERROR: 'danger',
+    }
+MESSAGE_LEVEL = messages_constants.DEBUG
+
 
 

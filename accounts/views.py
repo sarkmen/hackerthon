@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from accounts.forms import SignupForm
+from accounts.forms import SignupForm, ResumeForm
 from django.contrib.auth import get_user_model, authenticate, login as auth_login
 
 def sign_up(request):
@@ -15,3 +15,16 @@ def sign_up(request):
     else:
         form = SignupForm()
     return render(request, 'accounts/signup_form.html',{'form': form,})
+
+
+def resume(request):
+    if request.method == "POST":
+        form = ResumeForm(request.POST)
+        if form.is_valid():
+            form.save(commit=False)
+            form.user = request.user
+            form.save()
+            return redirect('idea:idea_list')
+    else:
+        form = ResumeForm()
+    return render(request, 'accounts/resume_form.html', {'form':form,})

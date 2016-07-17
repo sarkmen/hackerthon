@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from accounts.models import Profile
+from accounts.models import Resume
 
 #SignupForm = UserCreationForm
 
@@ -36,4 +36,13 @@ class SignupForm(UserCreationForm):
         return data
 
 
-
+class ResumeForm(forms.ModelForm):
+    class Meta:
+        model = Resume
+        fields = ('name', 'contents', 'group', 'position',)
+        labels = {
+            'name': '이름',
+            'contents': '지원내용',
+            'group': '소속',
+            'position':"직군",
+        }

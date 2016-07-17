@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load thumbnail %}
+{% load idea_extras %}
 {% block content %}
 
 
@@ -44,9 +46,31 @@
     function foo(){ console.log("Callback"); }
 </script>
 
+<style>
+.social_img img {
+    width : 100px;
+    height: 100px;
+}
+</style>
 
 <!-- Main Content -->
 <div class="container">
+    <div class = "social_img">
+    <hr>
+    <h3>참석자</h3>
+    {% for kakao_value in kakaos.values %}
+    <div>
+        {{kakao_value|split:","|lookup:0}}
+        <img src = "{{kakao_value|split:','|lookup:1}}">
+    </div>
+    {% endfor %}
+    {% for facebook_id , facebook_name in facebooks.items %}
+    <div>
+        {{facebook_name}}
+        <img src = "http://graph.facebook.com/{{facebook_id}}/picture?type=large">
+    </div>
+    {% endfor %}
+    </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>

@@ -2,18 +2,25 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Idea, Comment
 from .forms import IdeaForm, CommentForm
-from hackerthon.decorators import user_wrote_this
+from hackerthon.decorators import user_wrote_this, get_resume
 from django.contrib.auth.models import User
-from accounts.models import Profile
 from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
-import json
 
 
 def index(request):
-    return render(request, 'idea/index.html', {
-        })
+
+    social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
+    social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
+    kakaos = {}
+    facebooks = {}
+    for kakao in social_accounts_kakao:
+        kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
+    for facebook in social_accounts_facebook:
+        facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
+
+    return render(request, 'idea/index.html',{'kakaos':kakaos,'facebooks': facebooks})
 
 def idea_list(request):
     idea_list = Idea.objects.all().order_by('-id')
@@ -46,7 +53,9 @@ def generate_elapsed_time(duration):
         elapsed_time = 'now'
     return elapsed_time
 
+
 @login_required
+@get_resume()
 def idea_detail(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     request_post = request.POST.dict()
@@ -57,7 +66,6 @@ def idea_detail(request, pk):
             comment.idea = idea
             comment.author = request.user
             comment.save()
-
             local_now = timezone.localtime(timezone.now())
             comments = Comment.objects.filter(idea = idea)
             for comment in comments:
@@ -69,12 +77,10 @@ def idea_detail(request, pk):
             return render(request, 'idea/idea_comment.html', context)
     elif request.method == "POST" and request.is_ajax() and request_post['formtype'] == 'comment-edit':
         # comment_edit(request, pk, str(request_post['comment']))
-
         comment = get_object_or_404(Comment, pk=request_post['comment'])
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save()
-
             local_now = timezone.localtime(timezone.now())
             comments = Comment.objects.filter(idea = idea)
             for comment in comments:
@@ -97,7 +103,9 @@ def idea_detail(request, pk):
             'form' : form,
             })
 
+
 @login_required
+@get_resume()
 def idea_new(request):
     if request.method == "POST":
         form = IdeaForm(request.POST, request.FILES)
@@ -112,7 +120,9 @@ def idea_new(request):
         'form' : form,
         })
 
+
 @login_required
+@get_resume()
 @user_wrote_this(Idea)
 def idea_edit(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
@@ -128,14 +138,18 @@ def idea_edit(request, pk):
         'form' : form,
         })
 
+
 @login_required
+@get_resume()
 @user_wrote_this(Idea)
 def idea_del(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     idea.delete()
     return redirect('idea:idea_list')
 
+
 @login_required
+@get_resume()
 @user_wrote_this(Comment)
 def comment_edit(request, idea_pk, pk):
     idea = get_object_or_404(Idea, pk=idea_pk)
@@ -161,7 +175,9 @@ def comment_edit(request, idea_pk, pk):
     #     'form' : form,
     #     })
 
+
 @login_required
+@get_resume()
 @user_wrote_this(Comment)
 def comment_del(request, idea_pk, pk):
     idea = get_object_or_404(Idea, pk=idea_pk)
@@ -170,20 +186,17 @@ def comment_del(request, idea_pk, pk):
     return redirect('idea:idea_detail', idea_pk)
 
 
+
 def recommend(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     idea.recommend += 1
     request.user.recommend -= 1
     return redirect('index')
-
-
 def recommend_del(request, pk):
     idea = get_object_or_404(Idea, pk=pk)
     idea.recommend -= 1
     request.user.recommend += 1
     return redirect('index')
-
-
 def users(request):
     social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
@@ -191,7 +204,6 @@ def users(request):
     facebooks = {}
     for kakao in social_accounts_kakao:
         kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
-
     for facebook in social_accounts_facebook:
         facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
 
