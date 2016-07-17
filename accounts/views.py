@@ -21,9 +21,9 @@ def resume(request):
     if request.method == "POST":
         form = ResumeForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
-            form.user = request.user
-            form.save()
+            resume = form.save(commit=False)
+            resume.user = request.user
+            resume.save()
             return redirect('idea:idea_list')
     else:
         form = ResumeForm()

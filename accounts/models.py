@@ -11,4 +11,4 @@ class Resume(models.Model):
     contents = models.TextField(max_length=500)
     group = models.CharField(max_length=20)
     position = models.CharField(max_length=20, choices = POSITION_CHOICES)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete =models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete =models.CASCADE)
