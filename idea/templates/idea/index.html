@@ -47,39 +47,48 @@
 </script>
 
 <style>
-.social_img img {
-    width : 100px;
+#social_img img {
+    width: 100px;
     height: 100px;
+    background-position: center center;
+    background-repeat: no-repeat;
 }
 </style>
 
 <!-- Main Content -->
 <div class="container">
-    <div class = "social_img">
-    <hr>
-    <h3>참석자</h3>
-    {% for kakao_value in kakaos.values %}
-    <div>
-        {{kakao_value|split:","|lookup:0}}
-        <img src = "{{kakao_value|split:','|lookup:1}}">
-    </div>
-    {% endfor %}
-    {% for facebook_id , facebook_name in facebooks.items %}
-    <div>
-        {{facebook_name}}
-        <img src = "http://graph.facebook.com/{{facebook_id}}/picture?type=large">
-    </div>
-    {% endfor %}
-    </div>
     <div class="row">
         <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates odit, fuga atque ea nobis sit soluta odio, adipisci quas excepturi maxime quae totam ducimus consectetur?</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eius praesentium recusandae illo eaque architecto error, repellendus iusto reprehenderit, doloribus, minus sunt. Numquam at quae voluptatum in officia voluptas voluptatibus, minus!</p>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nostrum molestiae debitis nobis, quod sapiente qui voluptatum, placeat magni repudiandae accusantium fugit quas labore non rerum possimus, corrupti enim modi! Et.</p>
+        <hr class="small left">
+        <h2>행사개요</h2>
+        <p>파이콘은 세계 각국의 파이썬 프로그래밍 언어 커뮤니티에서 주관하는 비영리 컨퍼런스입니다.<p>
+
+        <p>한국에서는 처음으로 열린 파이콘 한국 2014를 시작으로 파이콘 한국 준비위원회는 건강한 국내 파이썬 생태계에 지속적인 보탬이 되고자,     커뮤니티 멤버들의 자발적인 봉사로 운영되고 있습니다. 2016년에는 파이콘 한국을 아시아-태평양 지역 파이썬 사용자들과 함께하는 파이콘 APAC 으로 진행하여, 더욱 다양한 참가자들과 함께 새로운 기술과 정보를 공유하고 서로 교류할 수 있는 행사가 되기를 희망합니다.</p>
+        <ul>
+            <li>일정 : 2016년 8월 13일(토) ~ 15일(월)</li>
+            <li>장소 : 강남구 코엑스 전시장</li>
+            <li>인원 : 약 1,500명 예상</li>
+            <li>주최 : 파이콘 한국 준비 위원회</li>
+            <li>대상 : 국내외 파이썬 개발자 혹은 관심이 있는 분이라면 누구나</li>
+            <li>발표 : 25분 또는 40분 길이의 발표</li>
+        </ul>
+        <hr class="small left">
+        <h2>발표자 모집</h2>
+        <p>파이썬에 대한 학술적 또는 상업적 프로젝트, 케이스 스터디 등 다양한 파이썬 관련 발표를 모집하고 있습니다. 자세한 내용은 발표자 모집 페이지를 참고해주세요.</p>
         </div>
     </div>
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id = "social_img">
+    <hr>
+    <h3>참석자</h3>
+    <div class = "row" id="social_img">
+    <center>
+    {% for kakao_value in kakaos.values %}
+            <!-- {{kakao_value|split:","|lookup:0}}-->
+            <img class="img-circle" src = "{{kakao_value|split:','|lookup:1}}">
+    {% endfor %}
+    </center>
+    </div>
+    </div>
 </div>
-
-
 
 {% endblock %}

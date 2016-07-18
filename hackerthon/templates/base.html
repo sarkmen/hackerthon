@@ -50,17 +50,11 @@
                     <a href="{% url 'idea:idea_list'%}">Idea</a>
                 </li>
                 <li>
-                    <a href="{% url 'idea:users'%}">Users</a>
-                </li>
-                <li>
                     <a href="{% url 'idea:location' %}">Location</a>
                 </li>
                 {%if not user.is_authenticated %}
                 <li>
                     <a href="{% url 'accounts:login' %}">Login</a>
-                </li>
-                <li>
-                    <a href="{% url 'accounts:signup'%}">Sign up</a>
                 </li>
                 {% else %}
                 <li>
@@ -86,7 +80,7 @@
                 <span style="font-family : sans-serif;">
                 Supported by 중소기업청 기업가센터
                 <hr>
-                Developed by 김범준, 안주은, 공현택
+                Developed by 공현택, 김범준, 안주은
                 </span></div>
                 <ul class="list-inline text-center">
                     <li>

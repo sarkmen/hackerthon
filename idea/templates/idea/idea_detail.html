@@ -147,9 +147,7 @@
                         <figure class="thumbnail user-photo">
                             {% if comment.author.socialaccount_set.all %}
                                 {%for account in comment.author.socialaccount_set.all%}
-                                    {% if account.provider == "facebook" %}
-                                        <img src = "http://graph.facebook.com/{{account.extra_data.id}}/picture?type=large"  class="img-responsive">
-                                    {% elif account.provider == "kakao" %}
+                                    {% if account.provider == "kakao" %}
                                         <img src = {{account.extra_data.properties.profile_image}}>
                                     {%endif%}
                                 {% endfor %}

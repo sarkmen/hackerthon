@@ -7,7 +7,7 @@ from . import views
 urlpatterns = [
     url(r'^login/$', login, name='login'),
     url(r'^logout/$', logout, {'next_page': 'index'}, name='logout'),
-    url(r'^signup/$', views.sign_up, name="signup"),
+    #url(r'^signup/$', views.sign_up, name="signup"),
     url(r'^resume/$', views.resume, name="resume"),
 ]
 

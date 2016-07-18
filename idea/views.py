@@ -12,16 +12,12 @@ from django.db.models import Count
 
 def index(request):
 
-    social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
     kakaos = {}
-    facebooks = {}
     for kakao in social_accounts_kakao:
         kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
-    for facebook in social_accounts_facebook:
-        facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
 
-    return render(request, 'idea/index.html',{'kakaos':kakaos,'facebooks': facebooks})
+    return render(request, 'idea/index.html',{'kakaos':kakaos,})
 
 def idea_list(request):
     idea_list = Idea.objects.all().annotate(vote_count = Count('vote')).order_by('-vote_count')
@@ -167,7 +163,6 @@ def comment_edit(request, idea_pk, pk):
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
             comment = form.save()
-
             local_now = timezone.localtime(timezone.now())
             comments = Comment.objects.filter(idea = idea)
             for comment in comments:
@@ -194,7 +189,7 @@ def comment_del(request, idea_pk, pk):
     comment.delete()
     return redirect('idea:idea_detail', idea_pk)
 
-
+"""
 def users(request):
     social_accounts_facebook = SocialAccount.objects.filter(provider = "facebook")
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
@@ -206,6 +201,6 @@ def users(request):
         facebooks[facebook.extra_data['id']] = facebook.extra_data['name']
 
     return render(request, "idea/users.html", {'kakaos':kakaos,'facebooks': facebooks})
-
+"""
 def location(request):
     return render(request, "idea/location.html")

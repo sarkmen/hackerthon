@@ -41,17 +41,11 @@
                     <a href="{% url 'idea:idea_list'%}">Idea</a>
                 </li>
                 <li>
-                    <a href="{% url 'idea:users'%}">Users</a>
-                </li>
-                <li>
                     <a href="{% url 'idea:location' %}">Contact</a>
                 </li>
                 {%if not user.is_authenticated %}
                 <li>
                     <a href="{% url 'accounts:login' %}">Login</a>
-                </li>
-                <li>
-                    <a href="{% url 'accounts:signup'%}">Sign up</a>
                 </li>
                 {% else %}
                 <li>
@@ -78,7 +72,7 @@
                 <div class="col-lg-8 col-lg-offset-0 col-md-0  col-md-offset-0">
                 Supported by 중소기업청 기업가센터
                 <hr>
-                Developed by 김범준, 안주은, 공현택</div>
+                Developed by 공현택, 김범준, 안주은</div>
                 <ul class="list-inline text-center">
                     <li>
                         <a href="https://www.facebook.com/p.rogramming3k/">
