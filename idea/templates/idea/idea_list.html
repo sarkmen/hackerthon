@@ -44,7 +44,7 @@
                     </div>
                     <div class="idea_title">
                         <h3>{{idea.title}}</h3>
-                        <div class="wrap"><i class="fa fa-user" aria-hidden="true"></i> {{idea.author}}</div>
+                        <div class="wrap"><i class="fa fa-user" aria-hidden="true"></i> {{idea.author.resume.name}}&nbsp득표수:{{idea.vote_set.count}}</div>
                         <div class="span12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{idea.updated_at|date:'Y-m-d H:m'}}</div>
                     </div>
                 </div>

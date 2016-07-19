@@ -23,17 +23,15 @@
 
     <div class="container col-md-9 col-md-offset-1">
     {# 글 내용 부분 #}
-        {# 투표 #}
-        <form action="" method="POST" enctype="multipart/form-data">
-            {% csrf_token %}
-                <input type="submit" value="투표" class = "btn btn-primary btn-lg">
-        </form>
-        투표수 : {{idea.vote_set.count}}
-        <div class="row col-sm-12">
 
+
+        <div class="row col-sm-12">
             <h1>
             <span>{{idea.title}}</span>
+            {# 투표 #}
             {% if idea.author == user %}
+            </h1>
+            <h2>
             <span class="dropdown btn-group pull-right">
                 <i class="fa fa-bars fa-lg" aria-hidden="true" data-toggle="dropdown"></i>
                 <ul class="dropdown-menu" style="min-width: 30px">
@@ -41,10 +39,15 @@
                 <li><a href="{% url 'idea:idea_del' idea.pk %}">삭제</a></li>
                 </ul>
             </span>
+            </h2>
             {% endif %}
-            </h1>
             <p class="lead">
-                by {{idea.author}}
+                by {{idea.author.resume.name}}
+                <form action="" method="POST" enctype="multipart/form-data" style="float : left">
+                    {% csrf_token %}
+                    <input type="submit" value="투표하기" class = "btn btn-primary">
+                </form>
+                &nbsp &nbsp투표수 : {{idea.vote_set.count}}
             </p>
             <hr>
             <p>

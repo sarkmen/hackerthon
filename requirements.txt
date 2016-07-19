@@ -6,3 +6,4 @@ python-social-auth
 django-allauth
 uwsgi
 psycopg2
+django-debug-toolbar

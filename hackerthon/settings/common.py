@@ -11,10 +11,10 @@ https://docs.djangoproject.com/en/1.9/ref/settings/
 """
 
 import os
+from os.path import abspath, dirname
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+BASE_DIR = dirname(dirname(dirname(abspath(__file__))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.9/howto/deployment/checklist/
@@ -50,7 +50,6 @@ INSTALLED_APPS = [
     'accounts.providers.kakao',
     #'accounts.providers.naver',
     'sorl.thumbnail',
-    'debug_toolbar',
 
 ]
 
@@ -163,7 +162,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 
 AUTHENTICATION_BACKENDS = (
-    'social.backends.facebook.FacebookOAuth2',
+    #'social.backends.facebook.FacebookOAuth2',
     # Needed to login by username in Django admin, regardless of `allauth`
     'django.contrib.auth.backends.ModelBackend',
     # `allauth` specific authentication methods, such as login by e-mail
@@ -181,6 +180,5 @@ MESSAGE_TAGS = {
     messages_constants.ERROR: 'danger',
     }
 MESSAGE_LEVEL = messages_constants.DEBUG
-
 
 
