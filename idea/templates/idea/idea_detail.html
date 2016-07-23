@@ -43,11 +43,6 @@
             {% endif %}
             <p class="lead">
                 by {{idea.author.resume.name}}
-                <form action="" method="POST" enctype="multipart/form-data" style="float : left">
-                    {% csrf_token %}
-                    <input type="submit" value="투표하기" class = "btn btn-primary">
-                </form>
-                &nbsp &nbsp투표수 : {{idea.vote_set.count}}
             </p>
             <hr>
             <p>
@@ -58,6 +53,12 @@
             <img src="{{idea.image.url}}" class="img-responsive center-block" width="80%">
             <hr>
             <p class="lead">{{idea.contents}}</p>
+            <hr>
+            <form action="" method="POST" enctype="multipart/form-data" class="text-center">
+                {% csrf_token %}
+                <input type="submit" value="투표하기" class = "btn btn-primary">
+                &nbsp; &nbsp;투표수 : {{idea.vote_set.count}}
+            </form>
             <hr>
         </div>
 
@@ -109,7 +110,11 @@
                             {% if account.provider == "facebook" %}
                                 <img src = "http://graph.facebook.com/{{account.extra_data.id}}/picture?type=large"  class="img-responsive">
                             {% elif account.provider == "kakao" %}
-                                <img src = {{account.extra_data.properties.profile_image}}>
+                                {% if account.extra_data.properties.profile_image %}
+                                    <img src = {{account.extra_data.properties.profile_image}}>
+                                {% else %}
+                                    <img src = "https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                {% endif %}
                             {%endif%}
                             {% endfor %}
                             {% else %}
