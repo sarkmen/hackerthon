@@ -11,10 +11,10 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                    <div class="page-heading">
+                    <div class="page-heading idea">
                         <h1>Idea</h1>
                         <hr class="small">
-                        <span class="subheading">This is what I do.</span>
+                        <span class="subheading">This is what We do.</span>
                     </div>
                 </div>
             </div>
@@ -22,22 +22,17 @@
     </header>
 
     <div class="container col-md-9 col-md-offset-1">
-    {# 글 내용 부분 #}
 
-
+        {# 글 내용 부분 #}
         <div class="row col-sm-12">
             <h1>
             <span>{{idea.title}}</span>
-            {# 투표 #}
             {% if idea.author == user %}
             </h1>
             <h2>
             <span class="dropdown btn-group pull-right">
-                <i class="fa fa-bars fa-lg" aria-hidden="true" data-toggle="dropdown"></i>
-                <ul class="dropdown-menu" style="min-width: 30px">
-                <li><a href="{% url 'idea:idea_edit' idea.pk %}">수정</a></li>
-                <li><a href="{% url 'idea:idea_del' idea.pk %}">삭제</a></li>
-                </ul>
+                <img src="{% static 'img/edit.png' %}" style="width: 40px;" id="edit">
+                <img src="{% static 'img/delete.png' %}" style="width: 40px;" id="delete">
             </span>
             </h2>
             {% endif %}
@@ -56,8 +51,11 @@
             <hr>
             <form action="" method="POST" enctype="multipart/form-data" class="text-center">
                 {% csrf_token %}
-                <input type="submit" value="투표하기" class = "btn btn-primary">
-                &nbsp; &nbsp;투표수 : {{idea.vote_set.count}}
+                {% if vote %}
+                    <button type="submit" class="btn btn-danger btn-lg">투표취소 <span class="badge">{{idea.vote_set.count}}</span></button>
+                {% else %}
+                    <button type="submit" class="btn btn-primary btn-lg">투표하기 <span class="badge">{{idea.vote_set.count}}</span></button>
+                {% endif %}
             </form>
             <hr>
         </div>
@@ -99,7 +97,7 @@
         </div> -->
 
     {# 댓글 다는 부분 #}
-        <div class="row col-sm-9">
+        <div class="row col-sm-10">
             <section class="comment">
                 <article class="row">
                     <div class="col-sm-2 hidden-xs">
@@ -107,15 +105,11 @@
                         <figure class="thumbnail user-photo">
                             {% if user.socialaccount_set.all %}
                             {%for account in user.socialaccount_set.all%}
-                            {% if account.provider == "facebook" %}
-                                <img src = "http://graph.facebook.com/{{account.extra_data.id}}/picture?type=large"  class="img-responsive">
-                            {% elif account.provider == "kakao" %}
                                 {% if account.extra_data.properties.profile_image %}
                                     <img src = {{account.extra_data.properties.profile_image}}>
                                 {% else %}
                                     <img src = "https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
                                 {% endif %}
-                            {%endif%}
                             {% endfor %}
                             {% else %}
                                 <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png" >
@@ -145,7 +139,7 @@
         </div>
 
     {# 댓글 보는 부분 #}
-    <div class="row col-sm-9 comment-block">
+    <div class="row col-sm-10 comment-block">
         {% if comments %}
         <section class="comment-list">
             {% for comment in comments %}
@@ -155,8 +149,10 @@
                         <figure class="thumbnail user-photo">
                             {% if comment.author.socialaccount_set.all %}
                                 {%for account in comment.author.socialaccount_set.all%}
-                                    {% if account.provider == "kakao" %}
+                                    {% if account.extra_data.properties.profile_image %}
                                         <img src = {{account.extra_data.properties.profile_image}}>
+                                    {% else %}
+                                        <img src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
                                     {%endif%}
                                 {% endfor %}
                             {% else %}
@@ -231,6 +227,19 @@
         function edit(){
             return "{% static 'js/comment_edit.js' %}"
         }
+
+        $(document).ready(function (){
+            $('.page-heading.idea').on('click', function (){
+                location.href = '/idea/'
+            })
+            $('#edit').on('click', function (){
+                location.href = "{% url 'idea:idea_edit' idea.pk %}"
+            })
+            $('#delete').on('click', function (){
+                if (confirm('삭제하시겠습니까?'))
+                    location.href = "{% url 'idea:idea_del' idea.pk %}"
+            })
+        })
     </script>
     <script src="{% static 'js/comment_edit.js' %}"></script>
     <script src="{% static 'js/comment_add.js' %}"></script>

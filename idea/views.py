@@ -92,6 +92,9 @@ def idea_detail(request, pk):
             #메세지 넣기
             Vote.objects.create(vote_user=request.user, vote_idea = idea)
             return redirect('idea:idea_detail', pk=idea.pk)
+        elif Vote.objects.filter(vote_user=request.user, vote_idea=idea).exists():
+            Vote.objects.filter(vote_user=request.user, vote_idea=idea).delete()
+            return redirect('idea:idea_detail', pk=idea.pk)
         else:
             #실패했다는 메세지 넣어야함
             return redirect('idea:idea_detail', pk=idea.pk)
@@ -100,12 +103,14 @@ def idea_detail(request, pk):
         form = CommentForm()
         local_now = timezone.localtime(timezone.now())
         comments = Comment.objects.filter(idea = idea)
+        vote = Vote.objects.filter(vote_user=request.user, vote_idea=idea).exists()
         for comment in comments:
             comment.elapsed_time = generate_elapsed_time(local_now - comment.updated_at)
         return render(request, 'idea/idea_detail.html', {
             'idea' : idea,
             'comments' : comments,
             'form' : form,
+            'vote': vote,
             })
 
 

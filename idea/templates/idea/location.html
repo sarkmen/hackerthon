@@ -64,7 +64,8 @@
             </div>
         </div>
     </div>
-
+{% endblock %}
+{% block script%}
 
     <script type="text/javascript" src="//apis.daum.net/maps/maps3.js?apikey=43b1479ac68b818b33dbfaa73b964878"></script>
     <script>
@@ -73,36 +74,36 @@
                 center: new daum.maps.LatLng(37.4657968, 126.95950199999993), // 지도의 중심좌표
                 level: 3 // 지도의 확대 레벨
             };
-
         var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
-
         // 지도에 마커를 표시합니다
         var marker = new daum.maps.Marker({
             map: map,
             position: new daum.maps.LatLng(37.4657968, 126.95950199999993)
         });
-
         // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
         var iwContent = '<div style="padding:5px; font-size : 12px;">서울대학교 연구공원</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
-
         // 인포윈도우를 생성합니다
         var infowindow = new daum.maps.InfoWindow({
             content : iwContent
         });
-
         // 마커에 마우스오버 이벤트를 등록합니다
         daum.maps.event.addListener(marker, 'mouseover', function() {
           // 마커에 마우스오버 이벤트가 발생하면 인포윈도우를 마커위에 표시합니다
             infowindow.open(map, marker);
         });
-
         // 마커에 마우스아웃 이벤트를 등록합니다
         daum.maps.event.addListener(marker, 'mouseout', function() {
             // 마커에 마우스아웃 이벤트가 발생하면 인포윈도우를 제거합니다
             infowindow.close();
         });
-
     </script>
 
 
+<script>
+    $(document).ready(function (){
+        $('.page-heading.location').on('click', function (){
+            location.href = '/idea/location/'
+        })
+    })
+</script>
 {% endblock %}
