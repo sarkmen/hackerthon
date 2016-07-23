@@ -8,10 +8,10 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="page-heading">
+                <div class="page-heading idea">
                     <h1>Idea</h1>
                     <hr class="small">
-                    <span class="subheading">This is what I do.</span>
+                    <span class="subheading">This is what We do.</span>
                 </div>
             </div>
         </div>
@@ -30,24 +30,24 @@
             <div class="show-like-table col-sm-12">
             {% for idea in idea_list %}
             <div class="col-md-4 col-sm-6 col-xs-12 wow slideInUp" data-wow-delay="0.1s">
-                <div class="idea_container">
-                    <div class="img_container container-fluid">
-                        <a href="{% url 'idea:idea_detail' idea.pk %}">
-                        {% if idea.image %}
-                            {% thumbnail idea.image "150x100" crop="center" as im %}
-                            <img src="{{im.url}}" width="{{im.width}}" height="{{im.height}}" class="img-responsive col-xs-12" alt="">
-                            {% endthumbnail %}
-                        {% else %}
-                        <h3>{{idea.title}}</h3>
-                        {% endif %}
-                        </a>
+                <a href="{% url 'idea:idea_detail' idea.pk %}">
+                    <div class="idea_container">
+                        <div class="img_container container-fluid">
+                            {% if idea.image %}
+                                {% thumbnail idea.image "150x100" crop="center" as im %}
+                                <img src="{{im.url}}" width="{{im.width}}" height="{{im.height}}" class="img-responsive col-xs-12" alt="">
+                                {% endthumbnail %}
+                            {% else %}
+                            <h3>{{idea.title}}</h3>
+                            {% endif %}
+                        </div>
+                        <div class="idea_title">
+                            <h3>{{idea.title}}</h3>
+                            <div class="wrap"><i class="fa fa-user" aria-hidden="true"></i> {{idea.author.resume.name}}&nbsp득표수:{{idea.vote_set.count}}</div>
+                            <div class="span12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{idea.updated_at|date:'Y-m-d H:m'}}</div>
+                        </div>
                     </div>
-                    <div class="idea_title">
-                        <h3>{{idea.title}}</h3>
-                        <div class="wrap"><i class="fa fa-user" aria-hidden="true"></i> {{idea.author.resume.name}}&nbsp득표수:{{idea.vote_set.count}}</div>
-                        <div class="span12"><i class="fa fa-clock-o" aria-hidden="true"></i> {{idea.updated_at|date:'Y-m-d H:m'}}</div>
-                    </div>
-                </div>
+                </a>
             </div>
             {% endfor %}
             </div>
@@ -65,5 +65,10 @@
 {% block script %}
 <script>
     new WOW().init();
+    $(document).ready(function (){
+        $('.page-heading.idea').on('click', function (){
+            location.href='/idea/'
+        })
+    })
 </script>
 {% endblock %}
