@@ -9,14 +9,22 @@ from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Count
 from django.contrib import messages
+from accounts.models import Resume
 
 def index(request):
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
     kakaos = {}
+    resume_list = Resume.objects.all()
     for kakao in social_accounts_kakao:
-        kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
-
-    return render(request, 'idea/index.html',{'kakaos':kakaos,})
+        for resume in resume_list:
+            if int(resume.user.username[6:]) == kakao.extra_data['id']:
+                kakaos[kakao.extra_data['id']] = resume.name + ',' + kakao.extra_data['properties']['profile_image'] + ',' + "resume" + ',' +resume.group + ',' + resume.position
+            else:
+                kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image'] + ',' +'kakao'
+    return render(request, 'idea/index.html',{
+        'kakaos':kakaos,
+        'resume_list' : resume_list,
+        })
 
 def idea_list(request):
     idea_list = Idea.objects.all().annotate(vote_count = Count('vote')).order_by('-vote_count')

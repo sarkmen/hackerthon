@@ -83,19 +83,69 @@
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1" id = "social_img">
     <hr>
     <h3>참석자</h3>
-    <div class = "row" id="social_img">
     <center>
-    {% for kakao_value in kakaos.values %}
-            <!-- {{kakao_value|split:","|lookup:0}}-->
-            {% if kakao_value|split:','|lookup:1 %}
-            <img class="img-circle" src = "{{kakao_value|split:','|lookup:1}}">
-            {% else %}
-            <img class="img-circle" src = "{% static 'img/defalut_photo.png' %}">
-            {% endif %}
+    <div class = "row" id="social_img">
+    {% for key, value in kakaos.items %}
+                <a href="#myModal_{{key}}" ng-click="showUserModal($index)" data-toggle="modal">
+                {% if value|split:','|lookup:1 %}
+                <img class="img-thumbnail img-responsive img-circle" src = "{{value|split:','|lookup:1}}">
+                {% else %}
+                <img class="img-thumbnail img-responsive img-circle" src = "{% static 'img/defalut_photo.png' %}">
+                {% endif %}
+                </a>
     {% endfor %}
+    </div>
     </center>
     </div>
+</div>
+
+<!--teamModal -->
+{% for key, value in kakaos.items %}
+<div id="myModal_{{key}}" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-info">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h1 id="myModalLabel" class="text-center">
+                {{value|split:","|lookup:0}}
+                </h1>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <div class="row">
+                        <center>
+                            {% if value|split:','|lookup:1 %}
+                                <img class="img-thumbnail img-responsive" src = "{{value|split:','|lookup:1}}">
+                            {% else %}
+                                <img class="img-thumbnail img-responsive" src = "{% static 'img/defalut_photo.png' %}">
+                            {% endif %}
+                        </center>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        {% if value|split:','|lookup:2 == "resume" %}
+                        <h4 class="text-center">
+                            소속 : {{value|split:','|lookup:3}}<br>
+                            분야 : {{value|split:','|lookup:4}}
+                        </h4>
+                        {% endif %}
+                        <!--
+                        <h4 class="text-center">
+                            <a href="{{profile.URL1}}"><button class="btn btn-info"><i class="fa fa-facebook"></i></button></a>
+                            <a href="{{profile.URL2}}"><button class="btn btn-default"><i class="fa fa-github"></i></button></a>
+                        </h4>
+                        -->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer bg-info">
+                <button class="btn btn-lg btn-default center-block" data-dismiss="modal" aria-hidden="true">Okay!</button>
+            </div>
+        </div>
     </div>
 </div>
+{% endfor %}
+<!--/modal-->
+
 
 {% endblock %}
