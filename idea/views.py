@@ -8,7 +8,6 @@ from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Count
-from django.contrib import messages
 from accounts.models import Resume
 
 def index(request):
