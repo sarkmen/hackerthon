@@ -15,15 +15,15 @@ def index(request):
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
     kakaos = {}
     resume_list = Resume.objects.all()
-    for kakao in social_accounts_kakao:
-        for resume in resume_list:
+    for resume in resume_list:
+        for kakao in social_accounts_kakao:
             if int(resume.user.username[6:]) == kakao.extra_data['id']:
                 kakaos[kakao.extra_data['id']] = resume.name + ',' + kakao.extra_data['properties']['profile_image'] + ',' + "resume" + ',' +resume.group + ',' + resume.position
-            else:
-                kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image'] + ',' +'kakao'
+    for kakao in social_accounts_kakao:
+        if not kakao.extra_data['id'] in kakaos.keys():
+            kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image'] + ',' +'kakao'
     return render(request, 'idea/index.html',{
         'kakaos':kakaos,
-        'resume_list' : resume_list,
         })
 
 def idea_list(request):
