@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from accounts.forms import SignupForm, ResumeForm
 from django.contrib.auth import get_user_model, authenticate, login as auth_login
+from django.contrib import messages
 """
 def sign_up(request):
     if request.method == "POST":
@@ -24,6 +25,7 @@ def resume(request):
             resume = form.save(commit=False)
             resume.user = request.user
             resume.save()
+            messages.success(request,"참가신청서 작성 완료")
             return redirect('idea:idea_list')
     else:
         form = ResumeForm()

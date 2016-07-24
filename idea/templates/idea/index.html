@@ -87,7 +87,11 @@
     <center>
     {% for kakao_value in kakaos.values %}
             <!-- {{kakao_value|split:","|lookup:0}}-->
+            {% if kakao_value|split:','|lookup:1 %}
             <img class="img-circle" src = "{{kakao_value|split:','|lookup:1}}">
+            {% else %}
+            <img class="img-circle" src = "{% static 'img/defalut_photo.png' %}">
+            {% endif %}
     {% endfor %}
     </center>
     </div>

@@ -8,10 +8,9 @@ from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Count
-
+from django.contrib import messages
 
 def index(request):
-
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
     kakaos = {}
     for kakao in social_accounts_kakao:
