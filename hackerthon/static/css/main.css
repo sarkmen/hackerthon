@@ -29,3 +29,7 @@
     font-size: 30px;
   }
 }
+
+.messages{
+  display: none;
+}

@@ -8,16 +8,31 @@ from allauth.socialaccount.models import SocialAccount
 from django.utils import timezone
 from datetime import timedelta
 from django.db.models import Count
-
+from accounts.models import Resume
 
 def index(request):
-
     social_accounts_kakao = SocialAccount.objects.filter(provider="kakao")
     kakaos = {}
+    resume_list = Resume.objects.all()
+    """
+    for resume in resume_list:
+        for kakao in social_accounts_kakao:
+            if int(resume.user.username[6:]) == kakao.extra_data['id']:
+                kakaos[kakao.extra_data['id']] = resume.name + ',' + kakao.extra_data['properties']['profile_image'] + ',' + "resume" + ',' +resume.group + ',' + resume.position
     for kakao in social_accounts_kakao:
-        kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image']
-
-    return render(request, 'idea/index.html',{'kakaos':kakaos,})
+        if not kakao.extra_data['id'] in kakaos.keys():
+            kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] +','+ kakao.extra_data['properties']['profile_image'] + ',' +'kakao'
+    """
+    for kakao in social_accounts_kakao:
+        try:
+            resume = Resume.objects.get(user=kakao.user)
+        except Resume.DoesNotExist:
+            kakaos[kakao.extra_data['id']] = kakao.extra_data['name'] + ',' + kakao.extra_data['properties']['profile_image'] + ',' + 'kakao'
+        else:
+            kakaos[kakao.extra_data['id']] = resume.name + ',' + kakao.extra_data['properties']['profile_image'] + ',' + "resume" + ',' + resume.group + ',' + resume.position
+    return render(request, 'idea/index.html',{
+        'kakaos':kakaos,
+        })
 
 def idea_list(request):
     idea_list = Idea.objects.all().annotate(vote_count = Count('vote')).order_by('-vote_count')

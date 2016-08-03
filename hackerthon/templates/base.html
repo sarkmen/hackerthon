@@ -4,6 +4,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta property="og:type" content="website">
+<meta property="og:title" content="P.rogreSV">
+<meta property="og:url" content="p.rogresv.com">
+<meta property="og:description" content="P.rogreSV 해커톤">
+<meta property="og:image" content="{% static 'img/home-bg.jpg' %}">
 <title>P.rogreSV</title>
     <!-- Bootstrap Core CSS -->
     <link href="{% static 'vendor/bootstrap/css/bootstrap.css' %}" rel="stylesheet" type="text/css">
@@ -24,9 +29,11 @@
     <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
     <script src="{% static 'js/typed.js' %}" type="text/javascript"></script>
 
+    <!-- message CSS -->
+    <link href="{% static 'css/animate.css' %}" rel = "stylesheet" type="text/css">
+
 </head>
 <body>
-
 <!-- Navigation -->
 <nav class="navbar navbar-default navbar-custom navbar-fixed-top">
     <div class="container-fluid">
@@ -68,7 +75,6 @@
 </nav>
 {% block content %}
 {% endblock %}
-
 <!-- Footer -->
 <footer>
     <div class="col-sm-11 col-sm-offset-1">
@@ -77,7 +83,7 @@
             <span style="font-family : sans-serif;">
             Supported by 중소기업청, 기업가센터, 스윗트래커
             <hr>
-            Developed by P.rogramming(공현택, 김범준, 안주은)
+            Developed by P.rogramming [공현택, 김범준, 안주은]  Powered by Django
             </span>
             <br><br><br>
         </div>

@@ -27,7 +27,7 @@ def get_resume():
             try:
                 model_instance = get_object_or_404(Resume, user=request.user)
             except Http404:
-                messages.error(request, "참가지원서를 작성하셔야 합니다.")
+                messages.error(request, "해커톤 참석을 위해 참가지원서를 작성하셔야 합니다.")
                 return redirect('accounts:resume')
             return view_func(request, *args, **kwargs)
         return _decorator
