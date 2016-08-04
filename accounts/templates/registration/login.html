@@ -34,8 +34,8 @@
                 <div class = "panel panel-default">
                     <div class = "panel-heading"></div>
                     <div class = "panel-body">
-                    <h2>ProgreSV 해커톤 로그인 안내</h2>
-                    <p>1인 1아이디를 위해 카카오톡 로그인을 합니다!!</p>
+                    <h2>ProgreSV 해커톤 로그인</h2>
+                    <p>해커톤 참가를 위해서 로그인을 해주세요.</p>
                         {% get_providers as providers %}
                         {% for provider in providers %}
                         <a title="{{ provider.name }}" href="{% provider_login_url provider.id process="login" scope=scope auth_params=auth_params %}" class="btn btn-social btn-block btn-{{ provider.id }} ">
@@ -57,4 +57,3 @@
 
 
 {% endblock %}
-
