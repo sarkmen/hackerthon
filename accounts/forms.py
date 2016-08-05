@@ -39,7 +39,7 @@ class SignupForm(UserCreationForm):
 class ResumeForm(forms.ModelForm):
     class Meta:
         model = Resume
-        fields = ('name', 'contents', 'group', 'position',)
+        fields = ('name', 'contents', 'group', 'position','t_size',)
         labels = {
             'name': '이름',
             'contents': '지원내용',
