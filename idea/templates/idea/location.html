@@ -23,8 +23,8 @@
                 <div>
                     <hr class="small left">
                     <h2>오시는 길</h2>
-                    <h3>서울대학교 연구공원 본관 5층</h3>
-                    <p>서울시 관악구 봉천7동 산 4-2</p>
+                    <h3>서울대학교 대학원교육연구동(39동) 지하 강당</h3>
+                    <p>서울시 관악구 신림동 산 56-1</p>
                 </div>
                 <div id="map" style="width:300px;height:300px; "></div>
                 <hr class="small left">
@@ -33,15 +33,7 @@
                     <h3>지하철</h3>
                     <div style="margin-left: 15px">
                         <p>
-                        <h4>낙성대역</h4> 4번 출구로 나와 약 50m 직진 후 왼쪽으로 꺾어서 20m 앞에 보이는 낙성대역 정류장에서 관악 02 승차 -> 호암교수회관 지나 서울대학교 후문(21번 정류) 하차장 ->길 건너 샛길 연구공원 방향 도보로 100m. 검은색 유리 건물
-                        </p>
-                    </div>
-
-                    <h3>버스</h3>
-                    <div style="margin-left: 15px">
-                        <p>
-                        <h4>가족생활동 정류장</h4>
-                        마을버스 - 관악 02
+                        <h4>서울대입구역</h4> 3번 출구로 나와 약 20m 직진 후 왼쪽의 5513 승차 -> 공대입구 하차 ->길 건너 차단기 보이는 방향으로 100m 직진 -> 39동 건물
                         </p>
                     </div>
 
@@ -49,14 +41,14 @@
                     <div style="margin-left: 15px">
                         <p>
                         네비게이션에 다음의 주소를 입력하고 오세요.<br>
-                        <i class="fa fa-location-arrow" aria-hidden="true"></i> 서울시 관악구 봉천7동 산 4-2 서울대학교 연구공원 본관<br>
+                        <i class="fa fa-location-arrow" aria-hidden="true"></i> 서울시 관악구 신림동 산 56-1 서울대학교 대학원교육연구동<br>
                         <p></p>
                         남부순환도로에서 낙성대 방향 좌(강남부터)/우(신림부터)회전 -> 서울대 후문 방향 약 1.6km 직진 -> 후문 직전 좌회전 <br>-> 샛길로 100m 진입 검은색 유리건물
                         </p>
 
                         <p>
                         <h4>주차안내</h4>
-                        주차는 지원이 어려우며, 가급적 대중교통을 이용해 주세요.
+                        주차는 학내시설 이용 가능하나 주차비가 높으니, 가능하면 대중교통을 이용해주세요.
                         </p>
                     </div>
                 </div>
@@ -70,17 +62,17 @@
     <script>
         var mapContainer = document.getElementById('map'), // 지도의 중심좌표
             mapOption = {
-                center: new daum.maps.LatLng(37.4657968, 126.95950199999993), // 지도의 중심좌표
+                center: new daum.maps.LatLng(37.455033, 126.951469), // 지도의 중심좌표
                 level: 3 // 지도의 확대 레벨
             };
         var map = new daum.maps.Map(mapContainer, mapOption); // 지도를 생성합니다
         // 지도에 마커를 표시합니다
         var marker = new daum.maps.Marker({
             map: map,
-            position: new daum.maps.LatLng(37.4657968, 126.95950199999993)
+            position: new daum.maps.LatLng(37.455033, 126.951469)
         });
         // 마커에 커서가 오버됐을 때 마커 위에 표시할 인포윈도우를 생성합니다
-        var iwContent = '<div style="padding:5px; font-size : 12px;">서울대학교 연구공원</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        var iwContent = '<div style="padding:5px; font-size : 12px;">서울대학교 대학원교육연구동(39동)</div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
         // 인포윈도우를 생성합니다
         var infowindow = new daum.maps.InfoWindow({
             content : iwContent
