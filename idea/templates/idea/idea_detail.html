@@ -39,9 +39,9 @@
                 by {{idea.author.resume.name}}
             </p>
             <hr>
-            <p>
-                <i class="fa fa-clock-o"></i> Posted on {{idea.created_at|date:'Y-m-d H:i'}}<br>
-                <i class="fa fa-refresh"></i> Last updated on {{idea.updated_at|date:'Y-m-d H:i'}}
+            <p class = "lead">
+                <i class="fa fa-clock-o"> Posted on {{idea.created_at|date:'Y-m-d H:i'}}</i><br>
+                <i class="fa fa-refresh">Last updated on {{idea.updated_at|date:'Y-m-d H:i'}}</i>
             </p>
             <hr>
             <img src="{{idea.image.url}}" class="img-responsive center-block" width="80%">
