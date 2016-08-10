@@ -46,7 +46,7 @@
             <hr>
             <img src="{{idea.image.url}}" class="img-responsive center-block" width="80%">
             <hr>
-            <p class="lead">{{idea.contents}}</p>
+            <p class="lead">{{idea.contents|linebreaks}}</p>
             <hr>
             <form action="" method="POST" enctype="multipart/form-data" class="text-center">
                 {% csrf_token %}
