@@ -11,6 +11,9 @@ class Resume(models.Model):
     GROUP_CHOICES = (
         ("피로그래밍","피로그래밍"),
         ("SNUSV","SNUSV"),
+        ("창업맞춤형사업", "창업맞춤형사업"),
+        ('SNULitez', 'SNULitez'),
+        ('해동 아이디어팩토리', '해동 아이디어팩토리'),
         ("기타","기타"),
     )
     SIZE_CHOICES = (
