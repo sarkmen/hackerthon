@@ -1,6 +1,19 @@
 from django.db import models
 from django.conf import settings
+import re
+from django.core.validators import RegexValidator
 # Create your models here.
+
+
+def phone_validator(value):
+    number = ''.join(re.findall(r'\d+', value))
+    return RegexValidator(r'^01[016789]\d{7,8}$', message="번호를 제대로 입력해주세요")(number)
+
+class PhoneField(models.CharField):
+    def __init__(self, *args, **kwargs):
+        kwargs.setdefault("max_length",13)
+        super(PhoneField, self).__init__(*args, **kwargs)
+        self.validators.append(phone_validator)
 
 class Resume(models.Model):
     POSITION_CHOICES = (
@@ -30,3 +43,4 @@ class Resume(models.Model):
     position = models.CharField(max_length=20, choices = POSITION_CHOICES)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete =models.CASCADE)
     t_size = models.CharField(max_length=10, choices=SIZE_CHOICES, default="L")
+    phone = PhoneField()
